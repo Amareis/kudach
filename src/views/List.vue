@@ -1,0 +1,162 @@
+<template>
+  <v-progress-circular v-if="loading && !items" indeterminate />
+  <v-flex v-else xs12 sm10 lg7 :style="{position: 'relative'}" v-scroll="checkScroll">
+    <search-wrapper>
+      <template v-slot="{mobile}">
+        <filter-date :current="date ? start : undefined" @filter="setDate" :full-width="mobile" />
+      </template>
+    </search-wrapper>
+
+    <v-card v-if="!items.length" class="mt-3">
+      <v-card-text>Событий нет :(</v-card-text>
+    </v-card>
+
+    <template v-for="i in items">
+      <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mt-2 mb-4" />
+    </template>
+
+    <v-layout v-if="loading && items" justify-center><v-progress-circular indeterminate/></v-layout>
+  </v-flex>
+</template>
+
+<script lang="ts">
+import moment from 'moment'
+import {firestore} from 'firebase'
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
+import {Location} from 'vue-router'
+
+import db, {IEvent} from '@/db'
+import {getItems, IGroup, IPost} from '@/vk'
+
+import Item from '@/components/Item.vue'
+import FilterDate from '@/components/FilterDate.vue'
+import SearchWrapper from '@/components/SearchWrapper.vue'
+
+type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
+
+@Component({
+  components: {Item, FilterDate, SearchWrapper},
+})
+export default class List extends Vue {
+  @Prop({required: false}) private readonly date!: string
+  @Prop({default: 'common'}) private readonly kind!: string
+
+  loading = false
+  events: IEvent[] = []
+  items: Array<IPost | IGroup> | null = null
+  last: QueryDocumentSnapshot | null = null
+  portion = 15
+
+  promote = null
+
+  async created() {
+    this.load()
+  }
+
+  get start() {
+    return this.date ? moment(this.date).startOf('day') : moment().subtract(25, 'minutes')
+  }
+
+  get end() {
+    const limit = this.date ? 1 : 1000
+    return moment(this.start)
+      .add(limit, 'day')
+      .startOf('day')
+  }
+
+  get common() {
+    return this.kind === 'common'
+  }
+
+  query() {
+    return db
+      .collection('events')
+      .orderBy('start', 'asc')
+      .where('kind', '==', this.kind)
+      .where('start', '>=', this.start.toISOString())
+      .where('start', '<', this.end.toISOString())
+  }
+
+  async load(more = false) {
+    if (this.loading || (more && !this.last)) return
+
+    let loadPromotes
+
+    if (!more) {
+      this.items = null
+      this.events = []
+      loadPromotes = db.collection('promotes').get()
+    }
+    this.loading = true
+
+    let q = this.query()
+    if (more) q = q.startAfter(this.last)
+
+    const events = await q.limit(this.portion).get()
+    this.last = events.docs[events.docs.length - 1]
+
+    let ev = events.docs.map(d => ({...d.data(), uid: d.id} as IEvent))
+    if (this.events) ev = ev.filter(e => !this.events.find(ev => ev.id === e.id))
+
+    let items: IEvent[] = []
+    let lasts: Record<string, IEvent> = {}
+    for (let e of ev) {
+      if (!items.find(pe => pe.id === e.id)) items.push(e)
+      lasts[e.id] = e
+    }
+    if (loadPromotes) {
+      const promotes = (await loadPromotes).docs.map(
+        d =>
+          ({
+            ...d.data(),
+            uid: d.id,
+          } as IEvent),
+      )
+      const promote = promotes[Math.round(Math.random() * (promotes.length - 1))]
+      if (promote) items.splice(Math.min(items.length, 2), 0, promote)
+    }
+
+    this.events.push(...ev)
+    this.items = (this.items || []).concat(
+      (await getItems(items.map(e => e.id))).flatMap(i => (i ? [i] : [])),
+    )
+    this.loading = false
+
+    for (let e of Object.values(lasts))
+      this.events.push(
+        ...(await this.query()
+          .where('start', '>', e.start)
+          .where('id', '==', e.id)
+          .get()).docs.map(d => ({...d.data(), uid: d.id} as IEvent)),
+      )
+  }
+
+  checkScroll() {
+    if (document.body.scrollHeight - scrollY < innerHeight * 2) this.load(true)
+  }
+
+  setDate(date: string) {
+    this.go({
+      name: 'list',
+      query: {
+        date,
+        kind: this.common ? undefined : this.kind,
+      },
+    })
+  }
+
+  go(opt: Location) {
+    !this.date && this.common ? this.$router.push(opt) : this.$router.replace(opt)
+  }
+
+  @Watch('date')
+  onDateChange() {
+    this.load()
+  }
+
+  @Watch('kind')
+  onKindChange() {
+    this.load()
+  }
+}
+</script>

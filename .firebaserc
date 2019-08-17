@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "kusve-98f3c"
+  },
+  "targets": {
+    "kusve-98f3c": {
+      "hosting": {
+        "new": [
+          "kudach-new"
+        ]
+      }
+    }
+  }
+}

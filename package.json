@@ -5,15 +5,29 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy": "vue-cli-service build && firebase deploy && rimraf dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@firebase/app-types": "^0.4.3",
+    "@firebase/util": "^0.2.25",
+    "@mdi/font": "^3.6.95",
+    "@sentry/browser": "^5.6.1",
+    "@sentry/integrations": "^5.6.1",
+    "@types/jsonp": "^0.2.0",
     "core-js": "^3.1.2",
+    "firebase": "^6.4.0",
+    "jsonp": "^0.2.1",
+    "moment": "^2.24.0",
+    "reflect-metadata": "^0.1.13",
     "register-service-worker": "^1.6.2",
+    "roboto-fontface": "^0.10.0",
     "vue": "^2.6.10",
+    "vue-analytics": "^5.17.0",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6",
+    "vuetify": "^2.0.7",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -34,7 +48,11 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "typescript": "^3.4.5",
+    "vue-cli-plugin-vuetify": "^0.6.3",
     "vue-template-compiler": "^2.6.10"
+  },
+  "babel": {
+    "presets": ["@vue/app"]
   },
   "eslintConfig": {
     "root": true,
@@ -53,7 +71,9 @@
           "#": "prettier config in here :)",
           "singleQuote": true,
           "semi": false,
-          "trailingComma": "all"
+          "trailingComma": "all",
+          "bracketSpacing": false,
+          "printWidth": 100
         }
       ]
     },
@@ -64,6 +84,23 @@
   "postcss": {
     "plugins": {
       "autoprefixer": {}
+    }
+  },
+  "vue": {
+    "pwa": {
+      "name": "Кудач",
+      "assetsVersion": 1,
+      "manifestOptions": {
+        "icons": [
+          {
+            "src": "./img/icons/android-chrome-192x192.png?v=1",
+            "sizes": "192x192",
+            "type": "image/png"
+          }
+        ],
+        "start_url": "/",
+        "gcm_sender_id": "103953800507"
+      }
     }
   },
   "browserslist": [
