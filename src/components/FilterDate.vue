@@ -33,7 +33,7 @@ export default class FilterDate extends Vue {
 
   change(date: string) {
     if (this.fullWidth) this.date = date
-    else this.filterDate(date)
+    else if (date !== this.start) this.filterDate(date)
   }
 
   filterDate(date: string) {
