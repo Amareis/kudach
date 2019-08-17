@@ -4,7 +4,7 @@
       :href="'https://vk.com/' + (sourceId < 0 ? 'club' : 'id') + Math.abs(sourceId)"
       target="_blank"
     >
-      <v-list-item-avatar size="48" color="#DDD">
+      <v-list-item-avatar color="#DDD" class="mt-1 mb-1 mr-3">
         <img v-if="avatar" :src="avatar" />
         <v-icon v-else>mdi-account-multiple</v-icon>
       </v-list-item-avatar>
@@ -149,7 +149,7 @@ export default class Header extends Vue {
 
 <style scoped lang="stylus">
 .name {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   -webkit-font-smoothing: subpixel-antialiased;
   color: #2a5885;

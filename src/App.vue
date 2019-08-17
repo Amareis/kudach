@@ -6,7 +6,7 @@
           <v-toolbar-title :style="{userSelect: 'none'}">Кудач</v-toolbar-title>
           <v-spacer />
         </template>
-        <v-btn outlined color="info" href="https://vk.com/kuda_ch" target="_blank"
+        <v-btn outlined color="info" href="https://vk.com/kuda_ch" target="_blank" class="pl-3 pr-3"
           >Мы ВКонтакте</v-btn
         >
         <template v-if="$vuetify.breakpoint.smAndUp">

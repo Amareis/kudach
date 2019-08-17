@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "target": "new",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -12,6 +11,15 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "headers": [{
+      "source": "**/*",
+      "headers": [
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "Content-Security-Policy", "value": "frame-ancestors https://*.kuda.ch:* http://localhost:*"},
+        {"key": "X-UA-Compatible", "value": "ie=edge"},
+        {"key": "X-XSS-Protection", "value": "1; mode=block"}
+      ]
+    }]
   }
 }

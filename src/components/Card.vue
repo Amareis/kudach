@@ -1,11 +1,11 @@
 <template>
   <v-flex v-bind="$attrs">
     <v-card :tile="$vuetify.breakpoint.xs">
-      <v-flex class="pt-2">
+      <v-flex>
         <Header :id="id" :source-id="sourceId" :events="events" :can-open="short" />
       </v-flex>
 
-      <v-card-text class="post"
+      <v-card-text class="post pt-2 pb-2"
         >{{ cardText
         }}<span v-if="short && !expanded" @click="expand" class="more"
           >{{ '\n' }}Показать полностью...</span

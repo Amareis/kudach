@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import List from '@/views/List.vue'
 import Details from '@/views/Details.vue'
+import Preview from '@/views/Preview.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,12 @@ export default new VueRouter({
       path: '/e/:id',
       name: 'details',
       component: Details,
+      props: true,
+    },
+    {
+      path: '/preview/:id',
+      name: 'preview',
+      component: Preview,
       props: true,
     },
   ],

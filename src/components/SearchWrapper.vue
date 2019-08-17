@@ -6,6 +6,7 @@
       @click="menu = true"
       fixed
       right
+      class="pl-3 pr-3"
       :style="{
         top: $vuetify.breakpoint.smAndDown ? '10px' : '14px',
         zIndex: 100,
