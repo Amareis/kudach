@@ -72,7 +72,7 @@ function encode(obj: Params) {
   return str.join('&')
 }
 
-const token = 'df5fc3bddf5fc3bddf5fc3bdd4df360c0bddf5fdf5fc3bd83f53adf9f29523d5f236f15'
+const token = '669e0c81669e0c81669e0c816066f252546669e669e0c813bc727eac694af31ebd4bfd8'
 
 function get<T = any>(m: string, params: Params) {
   const url = `https://api.vk.com/method/${m}?v=5.101&access_token=${token}&${encode(params)}`
@@ -84,6 +84,7 @@ function get<T = any>(m: string, params: Params) {
     }),
   )
 }
+
 export async function getPosts(posts: Array<string | null> | string) {
   let ids
   if (Array.isArray(posts)) {
