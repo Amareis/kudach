@@ -28,7 +28,8 @@
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6",
     "vuetify": "^2.0.7",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-module-decorators": "^0.10.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0-beta.3",
@@ -52,7 +53,9 @@
     "vue-template-compiler": "^2.6.10"
   },
   "babel": {
-    "presets": ["@vue/app"]
+    "presets": [
+      "@vue/app"
+    ]
   },
   "eslintConfig": {
     "root": true,

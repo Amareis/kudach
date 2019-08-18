@@ -8,3 +8,5 @@ declare module 'vue-analytics' {
   let VueAnalytics: PluginObject<any>
   export default VueAnalytics
 }
+
+declare type Lambda = () => void

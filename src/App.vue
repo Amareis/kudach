@@ -29,16 +29,17 @@
     <v-content>
       <v-container class="pl-0 pr-0 mb-5">
         <v-layout wrap justify-center>
-          <keep-alive include="List">
+          <v-progress-circular v-if="hasMajorUpdate" indeterminate />
+          <keep-alive v-else include="List">
             <router-view :key="$route.name"></router-view>
           </keep-alive>
         </v-layout>
       </v-container>
     </v-content>
 
-    <v-snackbar v-model="update" bottom color="info" :timeout="0">
+    <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="0">
       Есть обновления!
-      <v-btn text large @click="$root.$emit('reload-sw')">
+      <v-btn text large @click="updater.applyUpdate">
         Применить их
       </v-btn>
     </v-snackbar>
@@ -50,13 +51,35 @@ import {Component, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
 import moment from 'moment'
 
+import {reload} from '@/plugins/regSw'
+import {settings, updater} from '@/store'
+
 @Component
 export default class App extends Vue {
   fromList = false
-  update = false
+
+  updater = updater
+
+  get hasMajorUpdate() {
+    return settings.hasMajorUpdate
+  }
+
+  @Watch('hasMajorUpdate')
+  onMajorUpdate(major: boolean) {
+    if (major) reload()
+  }
+
+  get immediateUpdate() {
+    return settings.hasMajorUpdate && updater.hasUpdate
+  }
+
+  @Watch('immediateUpdate')
+  onImmediateUpdate(immediate: boolean) {
+    if (immediate) updater.applyUpdate()
+  }
 
   created() {
-    this.$root.$on('sw-updated', () => (this.update = true))
+    settings.load()
   }
 
   goMain() {
