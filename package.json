@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && firebase deploy && rimraf dist",
+    "deploy": "vue-cli-service build && firebase deploy --only hosting && rimraf dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -103,6 +103,15 @@
         ],
         "start_url": "/",
         "gcm_sender_id": "103953800507"
+      }
+    },
+    "devServer": {
+      "proxy": {
+        "/authvk": {
+          "target": "https://kuda.ch/authvk",
+          "changeOrigin": true,
+          "xfwd": true
+        }
       }
     }
   },
