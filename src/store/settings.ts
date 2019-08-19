@@ -1,12 +1,12 @@
-import {Module, VuexModule, Mutation, Action, getModule} from 'vuex-module-decorators'
+import {VuexModule, Mutation, Action} from 'vuex-module-decorators'
 
 import {version} from '@/../package.json'
 
 import db from '@/db'
 
-import store from './_store'
+import {instanceOf, Reg} from './_store'
 
-@Module({name: 'settings', dynamic: true, store, namespaced: true})
+@Reg()
 export class Settings extends VuexModule {
   loaded = false
   version = version
@@ -31,4 +31,4 @@ export class Settings extends VuexModule {
   }
 }
 
-export default getModule(Settings, store)
+export default instanceOf(Settings)

@@ -1,8 +1,8 @@
-import {Module, VuexModule, Mutation, Action, getModule} from 'vuex-module-decorators'
+import {VuexModule, Mutation, Action} from 'vuex-module-decorators'
 
-import store from './_store'
+import {instanceOf, Reg} from './_store'
 
-@Module({name: 'updater', dynamic: true, store, namespaced: true})
+@Reg()
 export class Updater extends VuexModule {
   private apply: null | Lambda = null
 
@@ -20,4 +20,4 @@ export class Updater extends VuexModule {
   }
 }
 
-export default getModule(Updater, store)
+export default instanceOf(Updater)
