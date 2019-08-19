@@ -9,15 +9,19 @@ import PortalVue from 'portal-vue'
 import moment from 'moment'
 
 import router from './router'
-import store from './store'
+import * as app from './store'
 import vuetify from './vuetify'
 
 import App from './App.vue'
+
+Object.assign(window, {app})
 
 Vue.config.productionTip = false
 Vue.use(PortalVue)
 
 moment.locale('ru-RU')
+
+const store = app.default
 
 export default new Vue({
   router,
