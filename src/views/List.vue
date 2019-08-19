@@ -1,6 +1,15 @@
 <template>
   <v-progress-circular v-if="loading && !items" indeterminate />
-  <v-flex v-else xs12 sm10 lg7 :style="{position: 'relative'}" v-scroll="checkScroll">
+  <v-flex
+    v-else
+    xs12
+    sm9
+    md7
+    lg6
+    :style="{position: 'relative'}"
+    class="mt-2"
+    v-scroll="checkScroll"
+  >
     <search-wrapper>
       <template v-slot="{mobile}">
         <filter-date :current="date ? start : undefined" @filter="setDate" :full-width="mobile" />

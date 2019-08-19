@@ -18,7 +18,7 @@
     </v-dialog>
   </v-flex>
   <v-layout v-else :style="{position: 'absolute', left: '100%'}" ref="menu" v-resize="setLeft">
-    <v-card :style="left ? {position: 'fixed', left} : {}" class="mt-2 ml-3">
+    <v-card :style="left ? {position: 'fixed', left, maxWidth: '250px'} : {}" class="ml-3 mr-3">
       <slot :mobile="false" />
     </v-card>
   </v-layout>
@@ -37,7 +37,7 @@ export default class SearchWrapper extends Vue {
   }
 
   get smallScreens() {
-    return this.$vuetify.breakpoint.mdAndDown
+    return this.$vuetify.breakpoint.smAndDown
   }
 
   setLeft() {

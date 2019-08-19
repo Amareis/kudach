@@ -1,6 +1,6 @@
 <template>
   <v-progress-circular v-if="loading" indeterminate />
-  <v-flex v-else xs12 sm10 lg7>
+  <v-flex v-else xs12 sm9 md7 lg6>
     <v-card v-if="!events || !item">
       <v-card-text>Нет такого события!</v-card-text>
     </v-card>

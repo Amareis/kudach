@@ -15,7 +15,7 @@ export default new VueRouter({
       path: '/',
       name: 'list',
       component: List,
-      props: route => ({date: route.query.date, kind: route.query.kind}),
+      props: route => ({date: route.query.date}),
     },
     {
       path: '/e/:id',

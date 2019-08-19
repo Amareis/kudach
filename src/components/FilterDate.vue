@@ -6,7 +6,7 @@
     :first-day-of-week="1"
     locale="ru-RU"
     no-title
-    width="230px"
+    width="auto"
   >
     <template v-if="fullWidth">
       <v-spacer></v-spacer>
