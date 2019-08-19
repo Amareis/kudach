@@ -7,10 +7,7 @@
     no-title
     width="auto"
   >
-    <template v-if="fullWidth">
-      <v-spacer></v-spacer>
-      <v-btn :disabled="!date" text color="primary" @click="emit(date)">Найти</v-btn>
-    </template>
+    <slot :date="date" />
   </v-date-picker>
 </template>
 
@@ -19,9 +16,8 @@ import moment, {Moment} from 'moment'
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
 @Component
-export default class FilterDate extends Vue {
+export default class DatePicker extends Vue {
   @Prop({required: false}) private readonly current!: Moment
-  @Prop({default: false}) private readonly fullWidth!: boolean
 
   date: string | null = null
 
@@ -32,12 +28,10 @@ export default class FilterDate extends Vue {
 
   change(date: string) {
     date = moment(date).format('YYYY-MM-DD')
-    if (this.fullWidth) this.date = date
-    else if (date !== this.start) this.emit(date)
-  }
-
-  emit(date: string) {
-    this.$emit('filter', date)
+    if (date !== this.start) {
+      this.date = date
+      this.$emit('change', date)
+    }
   }
 }
 </script>

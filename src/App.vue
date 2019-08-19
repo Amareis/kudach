@@ -7,7 +7,7 @@
             ><v-toolbar-title class="ktitle">Кудач</v-toolbar-title></v-col
           >
           <v-col>
-            <v-row :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
+            <v-row no-gutters :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
               <v-btn
                 outlined
                 color="info"
@@ -36,15 +36,19 @@
       </template>
     </v-app-bar>
     <v-content>
-      <v-container class="pl-0 pr-0 mb-5">
-        <v-row wrap justify="center" no-gutters>
-          <v-col cols="12" sm="10" md="7" lg="6">
+      <v-container fluid class="pl-0 pr-0">
+        <v-row wrap no-gutters justify="center">
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" md="3"> </v-col>
+          <v-col cols="12" sm="10" md="6">
             <v-row v-if="hasMajorUpdate" justify="center"
               ><v-progress-circular indeterminate
             /></v-row>
             <keep-alive v-else include="List">
               <router-view :key="$route.name"></router-view>
             </keep-alive>
+          </v-col>
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" md="3" :style="{position: 'relative'}">
+            <portal-target name="main-right" />
           </v-col>
         </v-row>
       </v-container>

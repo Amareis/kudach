@@ -1,7 +1,7 @@
 <template>
-  <v-col>
+  <v-layout column>
     <Item v-for="(item, i) in items" :key="i" :item="item" :possible-events="[]" />
-  </v-col>
+  </v-layout>
 </template>
 
 <script lang="ts">

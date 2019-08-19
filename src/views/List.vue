@@ -1,22 +1,36 @@
 <template>
-  <v-row v-if="loading && !items" justify="center"><v-progress-circular indeterminate/></v-row>
-  <v-col v-else :style="{position: 'relative'}" v-scroll="checkScroll">
-    <search-wrapper>
-      <template v-slot="{mobile}">
-        <filter-date :current="date ? start : undefined" @filter="setDate" :full-width="mobile" />
+  <v-layout column>
+    <v-layout column v-if="items" :style="{position: 'relative'}" v-scroll="checkScroll">
+      <template v-if="active">
+        <portal v-if="smallScreens" to="header-right">
+          <v-row no-gutters justify="end">
+            <v-btn outlined color="success" @click="menu = true" class="pl-3 pr-3">Календарь</v-btn>
+          </v-row>
+          <v-dialog v-model="menu" width="300px">
+            <date-picker :current="date ? start : undefined" v-slot="{date}">
+              <v-btn text @click="menu = false">Отмена</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn :disabled="!date" text color="primary" @click="setDate(date)">Найти</v-btn>
+            </date-picker>
+          </v-dialog>
+        </portal>
+        <portal v-else to="main-right">
+          <v-card :style="{position: 'fixed'}" max-width="250px" class="ml-3 mr-3">
+            <date-picker :current="date ? start : undefined" @change="setDate" />
+          </v-card>
+        </portal>
       </template>
-    </search-wrapper>
 
-    <v-card v-if="!items.length" class="mt-3">
-      <v-card-text>Событий нет :(</v-card-text>
-    </v-card>
+      <v-card v-if="!items.length" class="mt-3">
+        <v-card-text>Событий нет :(</v-card-text>
+      </v-card>
 
-    <template v-for="i in items">
-      <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mb-4" />
-    </template>
-
-    <v-row v-if="loading && items" justify="center"><v-progress-circular indeterminate/></v-row>
-  </v-col>
+      <template v-for="i in items">
+        <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mb-4" />
+      </template>
+    </v-layout>
+    <v-progress-circular class="align-self-center" v-if="loading" indeterminate />
+  </v-layout>
 </template>
 
 <script lang="ts">
@@ -29,13 +43,12 @@ import db, {IEvent} from '@/db'
 import {getItems, IGroup, IPost} from '@/vk'
 
 import Item from '@/components/Item.vue'
-import FilterDate from '@/components/FilterDate.vue'
-import SearchWrapper from '@/components/SearchWrapper.vue'
+import DatePicker from '@/components/DatePicker.vue'
 
 type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 
 @Component({
-  components: {Item, FilterDate, SearchWrapper},
+  components: {Item, DatePicker},
 })
 export default class List extends Vue {
   @Prop({required: false}) private readonly date!: string
@@ -47,6 +60,21 @@ export default class List extends Vue {
   portion = 15
 
   promote = null
+
+  menu = false
+  active = true
+
+  get smallScreens() {
+    return this.$vuetify.breakpoint.smAndDown
+  }
+
+  activated() {
+    this.active = true
+  }
+
+  deactivated() {
+    this.active = false
+  }
 
   @Watch('date', {immediate: true})
   onDateChange() {
@@ -131,6 +159,7 @@ export default class List extends Vue {
   }
 
   setDate(date: string) {
+    this.menu = false
     this.go({
       name: 'list',
       query: {
@@ -140,7 +169,7 @@ export default class List extends Vue {
   }
 
   go(opt: Location) {
-    !this.$route.query.date ? this.$router.push(opt) : this.$router.replace(opt)
+    !this.date ? this.$router.push(opt) : this.$router.replace(opt)
   }
 }
 </script>

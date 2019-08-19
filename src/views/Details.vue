@@ -1,11 +1,13 @@
 <template>
-  <v-row v-if="loading" justify="center"><v-progress-circular indeterminate/></v-row>
-  <v-col v-else>
-    <v-card v-if="!events || !item">
-      <v-card-text>Нет такого события!</v-card-text>
-    </v-card>
-    <Item v-else :item="item" :possible-events="events" />
-  </v-col>
+  <v-layout justify-center>
+    <v-progress-circular v-if="loading" indeterminate />
+    <v-layout v-else>
+      <v-card v-if="!events || !item">
+        <v-card-text>Нет такого события!</v-card-text>
+      </v-card>
+      <Item v-else :item="item" :possible-events="events" />
+    </v-layout>
+  </v-layout>
 </template>
 
 <script lang="ts">
