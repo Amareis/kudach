@@ -1,11 +1,11 @@
 <template>
-  <v-progress-circular v-if="loading" indeterminate />
-  <v-flex v-else xs12 sm9 md7 lg6>
+  <v-row v-if="loading" justify="center"><v-progress-circular indeterminate/></v-row>
+  <v-col v-else>
     <v-card v-if="!events || !item">
       <v-card-text>Нет такого события!</v-card-text>
     </v-card>
     <Item v-else :item="item" :possible-events="events" />
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

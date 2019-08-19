@@ -1,15 +1,6 @@
 <template>
-  <v-progress-circular v-if="loading && !items" indeterminate />
-  <v-flex
-    v-else
-    xs12
-    sm9
-    md7
-    lg6
-    :style="{position: 'relative'}"
-    class="mt-2"
-    v-scroll="checkScroll"
-  >
+  <v-row v-if="loading && !items" justify="center"><v-progress-circular indeterminate/></v-row>
+  <v-col v-else :style="{position: 'relative'}" v-scroll="checkScroll">
     <search-wrapper>
       <template v-slot="{mobile}">
         <filter-date :current="date ? start : undefined" @filter="setDate" :full-width="mobile" />
@@ -21,11 +12,11 @@
     </v-card>
 
     <template v-for="i in items">
-      <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mt-2 mb-4" />
+      <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mb-4" />
     </template>
 
-    <v-layout v-if="loading && items" justify-center><v-progress-circular indeterminate/></v-layout>
-  </v-flex>
+    <v-row v-if="loading && items" justify="center"><v-progress-circular indeterminate/></v-row>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -48,7 +39,6 @@ type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 })
 export default class List extends Vue {
   @Prop({required: false}) private readonly date!: string
-  @Prop({default: 'common'}) private readonly kind!: string
 
   loading = false
   events: IEvent[] = []
@@ -58,7 +48,8 @@ export default class List extends Vue {
 
   promote = null
 
-  async created() {
+  @Watch('date', {immediate: true})
+  onDateChange() {
     this.load()
   }
 
@@ -73,15 +64,10 @@ export default class List extends Vue {
       .startOf('day')
   }
 
-  get common() {
-    return this.kind === 'common'
-  }
-
   query() {
     return db
       .collection('events')
       .orderBy('start', 'asc')
-      .where('kind', '==', this.kind)
       .where('start', '>=', this.start.toISOString())
       .where('start', '<', this.end.toISOString())
   }
@@ -149,23 +135,12 @@ export default class List extends Vue {
       name: 'list',
       query: {
         date,
-        kind: this.common ? undefined : this.kind,
       },
     })
   }
 
   go(opt: Location) {
-    !this.date && this.common ? this.$router.push(opt) : this.$router.replace(opt)
-  }
-
-  @Watch('date')
-  onDateChange() {
-    this.load()
-  }
-
-  @Watch('kind')
-  onKindChange() {
-    this.load()
+    !this.$route.query.date ? this.$router.push(opt) : this.$router.replace(opt)
   }
 }
 </script>

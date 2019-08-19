@@ -1,18 +1,27 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <template v-if="$route.name === 'list' && (!$route.query.date && !$route.query.kind)">
-        <template v-if="$vuetify.breakpoint.smAndUp">
-          <v-toolbar-title :style="{userSelect: 'none'}">Кудач</v-toolbar-title>
-          <v-spacer />
-        </template>
-        <v-btn outlined color="info" href="https://vk.com/kuda_ch" target="_blank" class="pl-3 pr-3"
-          >Мы ВКонтакте</v-btn
-        >
-        <template v-if="$vuetify.breakpoint.smAndUp">
-          <v-spacer />
-          <v-toolbar-title :style="{visibility: 'hidden'}">Кудач</v-toolbar-title>
-        </template>
+      <template v-if="$route.name === 'list' && !$route.query.date">
+        <v-row no-gutters>
+          <v-col v-if="$vuetify.breakpoint.smAndUp"
+            ><v-toolbar-title class="ktitle">Кудач</v-toolbar-title></v-col
+          >
+          <v-col>
+            <v-row :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
+              <v-btn
+                outlined
+                color="info"
+                href="https://vk.com/kuda_ch"
+                target="_blank"
+                class="pl-3 pr-3"
+                >Мы ВКонтакте</v-btn
+              >
+            </v-row>
+          </v-col>
+          <v-col>
+            <portal-target name="header-right" />
+          </v-col>
+        </v-row>
       </template>
       <template v-else>
         <v-app-bar-nav-icon>
@@ -28,12 +37,16 @@
     </v-app-bar>
     <v-content>
       <v-container class="pl-0 pr-0 mb-5">
-        <v-layout wrap justify-center>
-          <v-progress-circular v-if="hasMajorUpdate" indeterminate />
-          <keep-alive v-else include="List">
-            <router-view :key="$route.name"></router-view>
-          </keep-alive>
-        </v-layout>
+        <v-row wrap justify="center" no-gutters>
+          <v-col cols="12" sm="10" md="7" lg="6">
+            <v-row v-if="hasMajorUpdate" justify="center"
+              ><v-progress-circular indeterminate
+            /></v-row>
+            <keep-alive v-else include="List">
+              <router-view :key="$route.name"></router-view>
+            </keep-alive>
+          </v-col>
+        </v-row>
       </v-container>
     </v-content>
 
@@ -103,4 +116,9 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="stylus"></style>
+<style lang="stylus" scoped>
+.ktitle
+  userSelect none
+  overflow visible
+  width 0
+</style>

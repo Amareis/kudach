@@ -2,7 +2,6 @@
   <v-date-picker
     :value="date || start"
     @input="change"
-    :full-width="fullWidth"
     :first-day-of-week="1"
     locale="ru-RU"
     no-title
@@ -10,7 +9,7 @@
   >
     <template v-if="fullWidth">
       <v-spacer></v-spacer>
-      <v-btn :disabled="!date" text color="primary" @click="filterDate(date)">Найти</v-btn>
+      <v-btn :disabled="!date" text color="primary" @click="emit(date)">Найти</v-btn>
     </template>
   </v-date-picker>
 </template>
@@ -32,12 +31,13 @@ export default class FilterDate extends Vue {
   }
 
   change(date: string) {
+    date = moment(date).format('YYYY-MM-DD')
     if (this.fullWidth) this.date = date
-    else if (date !== this.start) this.filterDate(date)
+    else if (date !== this.start) this.emit(date)
   }
 
-  filterDate(date: string) {
-    this.$emit('filter', date && moment(date).format('YYYY-MM-DD'))
+  emit(date: string) {
+    this.$emit('filter', date)
   }
 }
 </script>

@@ -1,76 +1,74 @@
 <template>
-  <v-flex v-bind="$attrs">
-    <v-card :tile="$vuetify.breakpoint.xs">
-      <v-flex>
+  <v-card :tile="$vuetify.breakpoint.xs">
+    <v-row no-gutters>
+      <v-col>
         <Header :id="id" :source-id="sourceId" :events="events" :can-open="short" />
-      </v-flex>
+      </v-col>
+    </v-row>
 
-      <v-card-text class="post pt-2 pb-2"
-        >{{ cardText
-        }}<span v-if="short && !expanded" @click="expand" class="more"
-          >{{ '\n' }}Показать полностью...</span
-        ></v-card-text
+    <v-card-text class="post pt-2 pb-2"
+      >{{ cardText
+      }}<span v-if="short && !expanded" @click="expand" class="more"
+        >{{ '\n' }}Показать полностью...</span
+      ></v-card-text
+    >
+
+    <v-img
+      v-if="image"
+      :key="imageLoaded"
+      max-height="500px"
+      contain
+      lazy-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+      :src="image.url"
+      :aspect-ratio="imageLoaded ? undefined : ratio"
+      @load="imageLoaded = true"
+    />
+
+    <v-card-actions>
+      <v-btn
+        text
+        small
+        color="info"
+        :href="'https://vk.com/' + (isGroup ? 'club' + Math.abs(sourceId) : 'wall' + id)"
+        target="_blank"
+        >{{ isGroup ? 'Событие ВК' : 'Пост ВК' }}</v-btn
       >
+      <v-spacer />
+      <v-dialog v-model="dialog" width="500">
+        <template v-slot:activator="{on}">
+          <v-btn small text color="primary" v-on="on">Найти компанию</v-btn>
+        </template>
 
-      <v-img
-        v-if="image"
-        :key="imageLoaded"
-        max-height="500px"
-        contain
-        lazy-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-        :src="image.url"
-        :aspect-ratio="imageLoaded ? undefined : ratio"
-        @load="imageLoaded = true"
-      />
+        <v-card>
+          <v-card-title class="headline grey lighten-2" primary-title>Поиск компании</v-card-title>
 
-      <v-card-actions>
-        <v-btn
-          text
-          small
-          color="info"
-          :href="'https://vk.com/' + (isGroup ? 'club' + Math.abs(sourceId) : 'wall' + id)"
-          target="_blank"
-          >{{ isGroup ? 'Событие ВК' : 'Пост ВК' }}</v-btn
-        >
-        <v-spacer />
-        <v-dialog v-model="dialog" width="500">
-          <template v-slot:activator="{on}">
-            <v-btn small text color="primary" v-on="on">Найти компанию</v-btn>
-          </template>
+          <v-card-text>
+            Интересное событие, из знакомых там никого, а в одиночку идти не хочется? Заходи в
+            <a href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7" target="_blank"
+              >наш чат ВКонтакте</a
+            >, там найдёшь компанию для совместного похода на мероприятие :)
+          </v-card-text>
 
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title
-              >Поиск компании</v-card-title
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn text @click="dialog = false">
+              Закрыть
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7"
+              target="_blank"
             >
-
-            <v-card-text>
-              Интересное событие, из знакомых там никого, а в одиночку идти не хочется? Заходи в
-              <a href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7" target="_blank"
-                >наш чат ВКонтакте</a
-              >, там найдёшь компанию для совместного похода на мероприятие :)
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-              <v-btn text @click="dialog = false">
-                Закрыть
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="primary"
-                text
-                href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7"
-                target="_blank"
-              >
-                Открыть чат
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-card-actions>
-    </v-card>
-  </v-flex>
+              Открыть чат
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -85,7 +83,6 @@ const len = 150
 
 @Component({
   components: {Header},
-  inheritAttrs: false,
 })
 export default class Card extends Vue {
   @Prop() private readonly id!: string

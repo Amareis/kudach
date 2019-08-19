@@ -1,7 +1,7 @@
 <template>
-  <v-flex>
+  <v-col>
     <Item v-for="(item, i) in items" :key="i" :item="item" :possible-events="[]" />
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

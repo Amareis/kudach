@@ -5,6 +5,7 @@ import './plugins/regSw'
 import './plugins/analytics'
 
 import Vue from 'vue'
+import PortalVue from 'portal-vue'
 import moment from 'moment'
 
 import router from './router'
@@ -14,6 +15,7 @@ import vuetify from './vuetify'
 import App from './App.vue'
 
 Vue.config.productionTip = false
+Vue.use(PortalVue)
 
 moment.locale('ru-RU')
 
