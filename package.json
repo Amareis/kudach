@@ -109,9 +109,9 @@
     "devServer": {
       "proxy": {
         "/authvk": {
-          "target": "https://kuda.ch/authvk",
+          "target": "https://kuda.ch",
           "changeOrigin": true,
-          "xfwd": true
+          "headers": {"x-redirect-host": "http://localhost:8080"}
         }
       }
     }

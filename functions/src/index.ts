@@ -15,8 +15,7 @@ function send(url: string) {
   )
 }
 
-function vkAuth(code: string, localhost = false) {
-  const host = localhost ? 'http://localhost:8080' : 'https://kuda.ch'
+function vkAuth(code: string, host: string) {
   const secret = functions.config().vkapp.secret
 
   const url =
@@ -45,11 +44,12 @@ export const authvk = functions.https.onRequest(async (request, response) => {
     response.send('invalid code')
     return
   }
-  const localhost = request.headers['x-forwarded-host'] === 'localhost:8080'
+  const hosts = request.headers['x-redirect-host']
+  const host = hosts ? (Array.isArray(hosts) ? hosts[0] : hosts) : 'https://kuda.ch'
   const code = request.query.code
 
   try {
-    const {access_token, user_id} = await vkAuth(code, localhost)
+    const {access_token, user_id} = await vkAuth(code, host)
     const id = String(user_id)
     const [user] = await get('users.get', access_token, {user_ids: id})
 
