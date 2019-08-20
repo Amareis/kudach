@@ -1,5 +1,13 @@
 <template>
   <v-layout column>
+    <portal v-if="date && active" to="header">
+      <v-app-bar app>
+        <v-app-bar-nav-icon>
+          <back-button />
+        </v-app-bar-nav-icon>
+        <v-toolbar-title>{{ dateText }}</v-toolbar-title>
+      </v-app-bar>
+    </portal>
     <v-layout column v-if="items" :style="{position: 'relative'}" v-scroll="checkScroll">
       <template v-if="active">
         <portal v-if="smallScreens" to="header-right">
@@ -44,11 +52,13 @@ import {getItems, IGroup, IPost} from '@/vk'
 
 import Item from '@/components/Item.vue'
 import DatePicker from '@/components/DatePicker.vue'
+import Post from '@/components/Post.vue'
+import BackButton from '@/components/BackButton.vue'
 
 type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 
 @Component({
-  components: {Item, DatePicker},
+  components: {Post, Item, DatePicker, BackButton},
 })
 export default class List extends Vue {
   @Prop({required: false}) private readonly date!: string
@@ -79,6 +89,14 @@ export default class List extends Vue {
   @Watch('date', {immediate: true})
   onDateChange() {
     this.load()
+  }
+
+  get dateText() {
+    if (!this.date) return 'скоро'
+    let m = moment(this.date)
+    if (m.isSame(moment(), 'day')) return 'сегодня'
+    if (m.isSame(moment().add(1, 'day'), 'day')) return 'завтра'
+    return m.format('D MMM')
   }
 
   get start() {

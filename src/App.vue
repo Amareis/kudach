@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <template v-if="$route.name === 'list' && !$route.query.date">
+    <portal-target name="header">
+      <v-app-bar app>
         <v-row no-gutters>
           <v-col v-if="$vuetify.breakpoint.smAndUp"
-            ><v-toolbar-title class="ktitle">Кудач</v-toolbar-title></v-col
+            ><v-toolbar-title class="selectNone">Кудач</v-toolbar-title></v-col
           >
           <v-col>
             <v-row no-gutters :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
@@ -22,19 +22,8 @@
             <portal-target name="header-right" />
           </v-col>
         </v-row>
-      </template>
-      <template v-else>
-        <v-app-bar-nav-icon>
-          <v-icon large @click="goMain">
-            mdi-arrow-left
-          </v-icon>
-        </v-app-bar-nav-icon>
-        <v-toolbar-title>
-          <span v-if="$route.name === 'details'">Событие</span>
-          <span v-else>{{ date }}</span>
-        </v-toolbar-title>
-      </template>
-    </v-app-bar>
+      </v-app-bar>
+    </portal-target>
     <v-content>
       <v-container fluid class="pl-0 pr-0">
         <v-row wrap no-gutters justify="center">
@@ -65,16 +54,14 @@
 
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Route} from 'vue-router'
-import moment from 'moment'
 
 import {reload} from '@/plugins/regSw'
 import {settings, updater} from '@/store'
 
-@Component
-export default class App extends Vue {
-  fromList = false
+import BackButton from '@/components/BackButton.vue'
 
+@Component({components: {BackButton}})
+export default class App extends Vue {
   updater = updater
 
   get hasMajorUpdate() {
@@ -98,31 +85,10 @@ export default class App extends Vue {
   created() {
     settings.load()
   }
-
-  goMain() {
-    if (this.fromList) this.$router.go(-1)
-    else this.$router.push({name: 'list'})
-  }
-
-  get date() {
-    let {date} = this.$route.query
-    if (!date) return 'скоро'
-    let m = moment(date as string)
-    if (m.isSame(moment(), 'day')) return 'сегодня'
-    if (m.isSame(moment().add(1, 'day'), 'day')) return 'завтра'
-    return m.format('D MMM')
-  }
-
-  @Watch('$route')
-  onRouteChange(cur: Route, old: Route) {
-    this.fromList = old.name === 'list'
-  }
 }
 </script>
 
 <style lang="stylus" scoped>
-.ktitle
+.selectNone
   userSelect none
-  overflow visible
-  width 0
 </style>

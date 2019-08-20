@@ -1,5 +1,13 @@
 <template>
   <v-layout justify-center>
+    <portal to="header">
+      <v-app-bar app>
+        <v-app-bar-nav-icon>
+          <back-button />
+        </v-app-bar-nav-icon>
+        <v-toolbar-title>Событие</v-toolbar-title>
+      </v-app-bar>
+    </portal>
     <v-progress-circular v-if="loading" indeterminate />
     <v-layout v-else>
       <v-card v-if="!events || !item">
@@ -17,9 +25,10 @@ import db, {IEvent} from '@/db'
 import {getItems, IGroup, IPost} from '@/vk'
 
 import Item from '@/components/Item.vue'
+import BackButton from '@/components/BackButton.vue'
 
 @Component({
-  components: {Item},
+  components: {Item, BackButton},
 })
 export default class Details extends Vue {
   @Prop() private readonly id!: string
