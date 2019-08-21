@@ -22,6 +22,7 @@ Vue.use(PortalVue)
 moment.locale('ru-RU')
 
 const store = app.default
+app.loader.load()
 
 export default new Vue({
   router,

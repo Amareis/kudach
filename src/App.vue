@@ -2,10 +2,11 @@
   <v-app>
     <portal-target name="header">
       <v-app-bar app>
+        <v-app-bar-nav-icon v-if="$vuetify.breakpoint.sm" @click="drawer = true" />
         <v-row no-gutters>
-          <v-col v-if="$vuetify.breakpoint.smAndUp"
-            ><v-toolbar-title class="selectNone">Кудач</v-toolbar-title></v-col
-          >
+          <v-col v-if="$vuetify.breakpoint.smAndUp" class="d-flex align-center">
+            <v-toolbar-title class="selectNone">Кудач</v-toolbar-title>
+          </v-col>
           <v-col>
             <v-row no-gutters :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
               <v-btn
@@ -13,7 +14,7 @@
                 color="info"
                 href="https://vk.com/kuda_ch"
                 target="_blank"
-                class="pl-3 pr-3"
+                class="px-3"
                 >Мы ВКонтакте</v-btn
               >
             </v-row>
@@ -24,12 +25,23 @@
         </v-row>
       </v-app-bar>
     </portal-target>
+    <v-navigation-drawer v-if="$vuetify.breakpoint.sm" app temporary v-model="drawer">
+      <nav-list />
+    </v-navigation-drawer>
     <v-content>
-      <v-container fluid class="pl-0 pr-0">
+      <v-container fluid class="px-0">
         <v-row wrap no-gutters justify="center">
-          <v-col v-if="$vuetify.breakpoint.mdAndUp" md="3"> </v-col>
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" md="3" :style="{position: 'relative'}">
+            <v-layout justify-end class="mx-3" :style="{position: 'absolute', right: 0}">
+              <v-card max-width="200px" :style="{position: 'fixed'}">
+                <v-navigation-drawer floating permanent>
+                  <nav-list />
+                </v-navigation-drawer>
+              </v-card>
+            </v-layout>
+          </v-col>
           <v-col cols="12" sm="10" md="6">
-            <v-row v-if="hasMajorUpdate" justify="center"
+            <v-row v-if="!loader.loaded || hasMajorUpdate" justify="center"
               ><v-progress-circular indeterminate
             /></v-row>
             <keep-alive v-else include="List">
@@ -42,6 +54,20 @@
         </v-row>
       </v-container>
     </v-content>
+
+    <v-bottom-navigation
+      v-if="$vuetify.breakpoint.xs && $route.name !== 'details'"
+      app
+      height="50px"
+    >
+      <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'list'}" exact>
+        <v-icon>mdi-calendar</v-icon>
+      </v-btn>
+
+      <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'profile'}">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
 
     <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="0">
       Есть обновления!
@@ -56,13 +82,17 @@
 import {Component, Vue, Watch} from 'vue-property-decorator'
 
 import {reload} from '@/plugins/regSw'
-import {settings, updater} from '@/store'
+import {settings, updater, loader} from '@/store'
 
+import NavList from '@/components/NavList.vue'
 import BackButton from '@/components/BackButton.vue'
 
-@Component({components: {BackButton}})
+@Component({components: {BackButton, NavList}})
 export default class App extends Vue {
   updater = updater
+  loader = loader
+
+  drawer = false
 
   get hasMajorUpdate() {
     return settings.hasMajorUpdate
@@ -90,5 +120,7 @@ export default class App extends Vue {
 
 <style lang="stylus" scoped>
 .selectNone
-  userSelect none
+  user-select none
+.navBtn:hover:before
+  opacity 0
 </style>

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import List from '@/views/List.vue'
 import Details from '@/views/Details.vue'
 import Preview from '@/views/Preview.vue'
+import Profile from '@/views/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ export default new VueRouter({
       name: 'details',
       component: Details,
       props: true,
+    },
+    {
+      path: '/me',
+      name: 'profile',
+      component: Profile,
     },
     {
       path: '/preview/:id',

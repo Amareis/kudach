@@ -9,7 +9,7 @@
       </v-app-bar>
     </portal>
     <v-progress-circular v-if="loading" indeterminate />
-    <v-layout v-else>
+    <v-layout v-else column>
       <v-card v-if="!events || !item">
         <v-card-text>Нет такого события!</v-card-text>
       </v-card>

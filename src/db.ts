@@ -1,5 +1,11 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth'
+
+import DocumentReference = firebase.firestore.DocumentReference
+import CollectionReference = firebase.firestore.CollectionReference
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot
+import QuerySnapshot = firebase.firestore.QuerySnapshot
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDk6jUzU5scEb8eKAuS4ndwc1DOw_oda0k',
@@ -11,8 +17,9 @@ firebase.initializeApp({
 })
 
 const db = firebase.firestore()
+const auth = firebase.auth()
 
-export {firebase}
+export {firebase, auth}
 export default db
 
 export interface IEvent {
@@ -20,4 +27,23 @@ export interface IEvent {
   uid?: string
   start: string
   createdAt: string
+}
+
+export function live(r: DocumentReference, onChange: (s: DocumentSnapshot) => void): Promise<void>
+export function live(r: CollectionReference, onChange: (s: QuerySnapshot) => void): Promise<void>
+export function live(
+  r: DocumentReference | CollectionReference,
+  onChange: (a: any) => void,
+): Promise<void> {
+  const s = r.onSnapshot.bind(r) as any
+  return new Promise(resolve => {
+    let resolved = false
+    s((a: any) => {
+      if (!resolved) {
+        resolve()
+        resolved = true
+      }
+      onChange(a)
+    })
+  })
 }
