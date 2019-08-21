@@ -4,7 +4,7 @@ import {instanceOf, Reg} from './_store'
 import settings from './settings'
 import auth from './auth'
 
-@Reg()
+@Reg('loader')
 export class Loader extends VuexModule {
   loaded = false
 

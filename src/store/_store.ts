@@ -10,8 +10,8 @@ const s = new Vuex.Store({
 
 export default s
 
-export function Reg(store = s): ClassDecorator {
-  return f => Module({name: f.name, dynamic: true, store, namespaced: true})(f)
+export function Reg(name: string, store = s): ClassDecorator {
+  return f => Module({name, dynamic: true, store, namespaced: true})(f)
 }
 
 type ConstructorOf<C> = {

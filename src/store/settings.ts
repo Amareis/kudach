@@ -6,7 +6,7 @@ import db, {live} from '@/db'
 
 import {instanceOf, Reg} from './_store'
 
-@Reg()
+@Reg('settings')
 export class Settings extends VuexModule {
   version = version
 

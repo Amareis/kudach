@@ -6,7 +6,7 @@ import {auth} from '@/db'
 
 import {instanceOf, Reg} from './_store'
 
-@Reg()
+@Reg('auth')
 export class Auth extends VuexModule {
   user: IUser | null = null
 

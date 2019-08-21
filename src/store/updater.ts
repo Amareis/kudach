@@ -2,7 +2,7 @@ import {VuexModule, Mutation, Action} from 'vuex-module-decorators'
 
 import {instanceOf, Reg} from './_store'
 
-@Reg()
+@Reg('updater')
 export class Updater extends VuexModule {
   private apply: null | Lambda = null
 
