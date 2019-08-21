@@ -61,7 +61,7 @@ export const authvk = functions.https.onRequest(async (request, response) => {
 
     const token = await admin.auth().createCustomToken(id)
     response.cookie('firetoken', token)
-    response.send(token)
+    response.send('<script>onload=function(){setTimeout(close, 100)}</script>')
   } catch (e) {
     response.cookie('firetoken', 'no')
     response.send('error: ' + JSON.stringify(e))
