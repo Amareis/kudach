@@ -90,7 +90,7 @@ export async function getPosts(posts: Array<string | null> | string) {
   if (Array.isArray(posts)) {
     ids = posts.filter(g => !!g).join(',')
     posts = posts.join(',')
-  }
+  } else ids = posts = String(posts)
   if (!ids) return []
   const res = await get<Array<IPost | null>>('wall.getById', {posts: ids})
   return posts.split(',').map(id => res.find(p => p && postId(p) === id) || null)

@@ -26,7 +26,7 @@
       </v-app-bar>
     </portal-target>
     <v-navigation-drawer v-if="$vuetify.breakpoint.sm" app temporary v-model="drawer">
-      <nav-list />
+      <nav-list :admin="auth.isAdmin" />
     </v-navigation-drawer>
     <v-content>
       <v-container fluid class="px-0">
@@ -35,7 +35,7 @@
             <v-layout justify-end class="mx-3" :style="{position: 'absolute', right: 0}">
               <v-card max-width="200px" :style="{position: 'fixed'}">
                 <v-navigation-drawer floating permanent>
-                  <nav-list />
+                  <nav-list :admin="auth.isAdmin" />
                 </v-navigation-drawer>
               </v-card>
             </v-layout>
@@ -67,6 +67,17 @@
       <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'profile'}">
         <v-icon>mdi-account</v-icon>
       </v-btn>
+
+      <v-btn
+        v-if="auth.isAdmin"
+        text
+        icon
+        :ripple="{center: true}"
+        class="navBtn"
+        :to="{name: 'create'}"
+      >
+        <v-icon>mdi-pencil-outline</v-icon>
+      </v-btn>
     </v-bottom-navigation>
 
     <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="0">
@@ -82,7 +93,7 @@
 import {Component, Vue, Watch} from 'vue-property-decorator'
 
 import {reload} from '@/plugins/regSw'
-import {settings, updater, loader} from '@/store'
+import {settings, updater, loader, auth} from '@/store'
 
 import NavList from '@/components/NavList.vue'
 import BackButton from '@/components/BackButton.vue'
@@ -91,6 +102,7 @@ import BackButton from '@/components/BackButton.vue'
 export default class App extends Vue {
   updater = updater
   loader = loader
+  auth = auth
 
   drawer = false
 

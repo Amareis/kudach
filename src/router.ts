@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import {auth, loader} from '@/store'
+
 import List from '@/views/List.vue'
 import Details from '@/views/Details.vue'
-import Preview from '@/views/Preview.vue'
 import Profile from '@/views/Profile.vue'
+
+const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
+const Create = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Create.vue')
+const Edit = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Edit.vue')
+const Promotes = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Promotes.vue')
 
 Vue.use(VueRouter)
 
@@ -30,10 +36,31 @@ export default new VueRouter({
       component: Profile,
     },
     {
-      path: '/preview/:id',
-      name: 'preview',
-      component: Preview,
-      props: true,
+      path: '/admin',
+      component: Admin,
+      beforeEnter: async (to, from, next) => {
+        await loader.ensure()
+        if (!auth.isAdmin) next({name: 'profile'})
+        else next()
+      },
+      children: [
+        {
+          path: '',
+          name: 'create',
+          component: Create,
+        },
+        {
+          path: 'edit/:id',
+          name: 'edit',
+          component: Edit,
+          props: true,
+        },
+        {
+          path: 'promotes',
+          name: 'promotes',
+          component: Promotes,
+        },
+      ],
     },
   ],
 })
