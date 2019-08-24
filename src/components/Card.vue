@@ -34,39 +34,7 @@
         >{{ isGroup ? 'Событие ВК' : 'Пост ВК' }}</v-btn
       >
       <v-spacer />
-      <v-dialog v-model="dialog" width="500">
-        <template v-slot:activator="{on}">
-          <v-btn small text color="primary" v-on="on">Найти компанию</v-btn>
-        </template>
-
-        <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>Поиск компании</v-card-title>
-
-          <v-card-text>
-            Интересное событие, из знакомых там никого, а в одиночку идти не хочется? Заходи в
-            <a href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7" target="_blank"
-              >наш чат ВКонтакте</a
-            >, там найдёшь компанию для совместного похода на мероприятие :)
-          </v-card-text>
-
-          <v-divider></v-divider>
-
-          <v-card-actions>
-            <v-btn text @click="dialog = false">
-              Закрыть
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              href="https://vk.me/join/AJQ1d7md7RBykbZdRMSh/If7"
-              target="_blank"
-            >
-              Открыть чат
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <fave-button :id="id" />
     </v-card-actions>
   </v-card>
 </template>
@@ -78,11 +46,12 @@ import {IEvent} from '@/db'
 import {IPhotoSize} from '@/vk'
 
 import Header from './Header.vue'
+import FaveButton from './FaveButton.vue'
 
 const len = 150
 
 @Component({
-  components: {Header},
+  components: {Header, FaveButton},
 })
 export default class Card extends Vue {
   @Prop() private readonly id!: string

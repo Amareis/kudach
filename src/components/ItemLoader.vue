@@ -3,7 +3,7 @@
   <v-card v-else-if="!item">
     <v-card-text>Нет такого события!</v-card-text>
   </v-card>
-  <Item v-else :item="item" :possible-events="events" />
+  <Item v-else :item="item" :possible-events="events" :short="short" />
 </template>
 
 <script lang="ts">
@@ -19,6 +19,7 @@ import Item from '@/components/Item.vue'
 })
 export default class ItemLoader extends Vue {
   @Prop() private readonly id!: string
+  @Prop({default: false}) private readonly short!: boolean
 
   loading = true
   events: IEvent[] = []

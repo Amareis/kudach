@@ -1,11 +1,12 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, {NavigationGuard} from 'vue-router'
 
 import {auth, loader} from '@/store'
 
 import List from '@/views/List.vue'
 import Details from '@/views/Details.vue'
 import Profile from '@/views/Profile.vue'
+import Favorite from '@/views/Favorite.vue'
 
 const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
 const Create = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Create.vue')
@@ -13,6 +14,12 @@ const Edit = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Edit.vu
 const Promotes = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Promotes.vue')
 
 Vue.use(VueRouter)
+
+const needAuth: NavigationGuard = async (to, from, next) => {
+  await loader.ensure()
+  if (!auth.isAdmin) next({name: 'profile'})
+  else next()
+}
 
 export default new VueRouter({
   mode: 'history',
@@ -36,13 +43,15 @@ export default new VueRouter({
       component: Profile,
     },
     {
+      path: '/favorite',
+      name: 'favorite',
+      component: Favorite,
+      beforeEnter: needAuth,
+    },
+    {
       path: '/admin',
       component: Admin,
-      beforeEnter: async (to, from, next) => {
-        await loader.ensure()
-        if (!auth.isAdmin) next({name: 'profile'})
-        else next()
-      },
+      beforeEnter: needAuth,
       children: [
         {
           path: '',

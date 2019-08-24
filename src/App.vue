@@ -64,6 +64,10 @@
         <v-icon>mdi-calendar</v-icon>
       </v-btn>
 
+      <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'favorite'}">
+        <v-icon>mdi-heart-outline</v-icon>
+      </v-btn>
+
       <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'profile'}">
         <v-icon>mdi-account</v-icon>
       </v-btn>
