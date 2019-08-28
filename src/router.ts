@@ -8,6 +8,7 @@ import Details from '@/views/Details.vue'
 import Profile from '@/views/Profile.vue'
 import Favorite from '@/views/Favorite.vue'
 import Checkin from '@/views/Checkin.vue'
+import Rating from '@/views/Rating.vue'
 
 const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
 const Create = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Create.vue')
@@ -54,6 +55,12 @@ export default new VueRouter({
       path: '/favorite',
       name: 'favorite',
       component: Favorite,
+      beforeEnter: needAuth,
+    },
+    {
+      path: '/rating',
+      name: 'rating',
+      component: Rating,
       beforeEnter: needAuth,
     },
     {

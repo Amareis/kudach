@@ -59,6 +59,7 @@
       v-if="$vuetify.breakpoint.xs && $route.name !== 'details'"
       app
       height="50px"
+      grow
     >
       <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'list'}" exact>
         <v-icon>mdi-calendar</v-icon>
@@ -66,6 +67,10 @@
 
       <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'favorite'}">
         <v-icon>mdi-heart-outline</v-icon>
+      </v-btn>
+
+      <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'rating'}">
+        <v-icon>mdi-crown</v-icon>
       </v-btn>
 
       <v-btn text icon :ripple="{center: true}" class="navBtn" :to="{name: 'profile'}">
@@ -143,6 +148,8 @@ export default class App extends Vue {
 <style lang="stylus" scoped>
 .selectNone
   user-select none
+.navBtn
+  min-width 0 !important
 .navBtn:hover:before
   opacity 0
 </style>

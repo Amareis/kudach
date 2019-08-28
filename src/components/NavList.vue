@@ -18,6 +18,15 @@
       </v-list-item-content>
     </v-list-item>
 
+    <v-list-item link :to="{name: 'rating'}">
+      <v-list-item-icon class="mr-3">
+        <v-icon>mdi-crown</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Рейтинг</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
     <v-list-item link :to="{name: 'profile'}">
       <v-list-item-icon class="mr-3">
         <v-icon>mdi-account</v-icon>
