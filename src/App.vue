@@ -94,10 +94,11 @@
 </template>
 
 <script lang="ts">
+import {Route} from 'vue-router'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 
 import {reload} from '@/plugins/regSw'
-import {settings, updater, loader, auth} from '@/store'
+import {settings, updater, loader, auth, router} from '@/store'
 
 import NavList from '@/components/NavList.vue'
 import BackButton from '@/components/BackButton.vue'
@@ -130,6 +131,11 @@ export default class App extends Vue {
 
   created() {
     settings.load()
+  }
+
+  @Watch('$route')
+  onRouteChange(cur: Route, old: Route) {
+    router.setHasBack(old.name !== null)
   }
 }
 </script>
