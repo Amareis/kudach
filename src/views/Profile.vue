@@ -1,18 +1,9 @@
 <template>
   <v-layout column>
     <v-card v-if="auth.user">
-      <v-list class="pa-0">
-        <v-list-item :href="'https://vk.com/id' + auth.user.id" target="_blank">
-          <v-list-item-avatar color="#DDD">
-            <img v-if="auth.user.photo_50" :src="auth.user.photo_50" />
-            <v-icon v-else>mdi-account</v-icon>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title class="name">{{ name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <source-name :id="auth.user.id" no-link>
+        <v-btn text color="primary" large> {{ balls }} баллов </v-btn>
+      </source-name>
       <v-card-actions>
         <v-btn text color="info" :href="'https://vk.com/id' + auth.user.id" target="_blank">
           Страница ВК
@@ -32,19 +23,43 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Vue, Watch} from 'vue-property-decorator'
 import Cookies from 'js-cookie'
 
+import db from '@/db'
 import {auth} from '@/store'
 import {wait} from '@/utils'
 
-@Component
+import SourceName from '@/components/SourceName.vue'
+
+@Component({
+  components: {SourceName},
+})
 export default class Profile extends Vue {
   auth = auth
+  balls = 0
 
   get name() {
     if (!auth.user) return ''
     return auth.user.first_name + ' ' + auth.user.last_name
+  }
+
+  get user() {
+    return auth.user
+  }
+
+  @Watch('user', {immediate: true})
+  async getBalls(id: string) {
+    if (!this.user) {
+      this.balls = 0
+      return
+    }
+    const r = await db
+      .collection('rating')
+      .doc(String(this.user.id))
+      .get()
+    if (!r.exists) this.balls = 0
+    else this.balls = r.data()!.total
   }
 
   async login() {

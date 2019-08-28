@@ -1,6 +1,6 @@
 <template>
   <v-list class="pa-0" two-line>
-    <v-list-item :href="link" target="_blank">
+    <v-list-item :href="noLink ? undefined : link" target="_blank">
       <v-list-item-avatar color="#DDD" class="mt-1 mb-1 mr-3">
         <img v-if="avatar" :src="avatar" />
         <v-icon v-else>mdi-account-multiple</v-icon>
@@ -25,6 +25,7 @@ import {getGroups, getUsers} from '@/vk'
 export default class SourceName extends Vue {
   @Prop() private readonly id!: number
   @Prop({default: () => []}) private readonly subtitles!: string[]
+  @Prop({default: false}) private readonly noLink!: boolean
 
   avatar = ''
   name = ''
