@@ -34,7 +34,7 @@ export interface IEvent {
 export interface ICheckin {
   id: string
   user: number
-  accepted: boolean
+  accepted: boolean | null
   photos: string[]
   createdAt: string
 }

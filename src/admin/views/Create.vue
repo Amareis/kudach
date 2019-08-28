@@ -7,24 +7,36 @@
       >Редактировать</v-btn
     >
     <Preview v-if="item" :item="item" />
+
+    <template v-if="!item">
+      <checkin-edit v-for="(c, i) in checkins" :checkin="c" :key="i" />
+    </template>
   </v-layout>
 </template>
 
-<script>
-import ItemGetter from '../components/ItemGetter'
-import Preview from '../components/Preview'
+<script lang="ts">
+import {Component, Vue} from 'vue-property-decorator'
 
-export default {
-  name: 'Create',
-  components: {ItemGetter, Preview},
-  data() {
-    return {
-      item: null,
-      existing: false,
-    }
-  },
-  methods: {},
+import {IGroup, IPost} from '@/vk'
+import db, {ICheckin} from '@/db'
+
+import ItemGetter from '@/admin/components/ItemGetter.vue'
+import Preview from '@/admin/components/Preview.vue'
+import CheckinEdit from '@/admin/components/CheckinEdit.vue'
+
+@Component({
+  components: {ItemGetter, Preview, CheckinEdit},
+})
+export default class Create extends Vue {
+  item: IGroup | IPost | null = null
+  existing = false
+  checkins: ICheckin[] = []
+
+  async created() {
+    this.checkins = (await db
+      .collection('checkins')
+      .where('accepted', '==', null)
+      .get()).docs.map(d => d.data() as ICheckin)
+  }
 }
 </script>
-
-<style scoped></style>

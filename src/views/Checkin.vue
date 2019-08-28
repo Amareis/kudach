@@ -26,7 +26,7 @@
 
       <v-divider />
 
-      <v-card-actions v-if="!check || !check.accepted">
+      <v-card-actions v-if="!check || check.accepted === null">
         <v-spacer></v-spacer>
         <upload-button
           color="primary"
@@ -82,7 +82,8 @@ export default class Checkin extends Vue {
 
   get status() {
     if (!this.check) return ''
-    if (!this.check.accepted) return 'Идёт проверка, скоро ваши фотографии подтвердят!'
+    if (this.check.accepted === null) return 'Идёт проверка, скоро ваши фотографии подтвердят!'
+    if (this.check.accepted === false) return 'Ваши фотографии отклонены :('
     return 'Фотографии подтверждены'
   }
 
@@ -102,7 +103,7 @@ export default class Checkin extends Vue {
       id: this.id,
       user: this.user.id,
       createdAt: moment().toISOString(),
-      accepted: false,
+      accepted: null,
       photos: [],
     })
     this.check = (await doc.get()).data() as ICheckin
