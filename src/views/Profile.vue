@@ -21,7 +21,13 @@
         <v-btn text color="red" @click="auth.logout">Выйти</v-btn>
       </v-card-actions>
     </v-card>
-    <v-btn v-else color="success" @click="login">Войти через ВК</v-btn>
+    <v-card v-else>
+      <v-card-actions class="py-5">
+        <v-spacer />
+        <v-btn color="success" @click="login" large>Войти через ВК</v-btn>
+        <v-spacer />
+      </v-card-actions>
+    </v-card>
   </v-layout>
 </template>
 
