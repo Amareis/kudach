@@ -3,6 +3,14 @@ import admin from 'firebase-admin'
 
 import req from 'request'
 
+export interface ICheckin {
+  id: string
+  user: number
+  accepted: boolean | null
+  photos: string[]
+  createdAt: string
+}
+
 admin.initializeApp()
 
 function send(url: string) {
@@ -67,3 +75,40 @@ export const authvk = functions.https.onRequest(async (request, response) => {
     response.send('error: ' + JSON.stringify(e))
   }
 })
+
+export const checkinBalls = functions.firestore
+  .document('checkins/{checkin}')
+  .onWrite(async (change, context) => {
+    const after = change.after.data() as ICheckin | undefined
+    const before = change.before.data() as ICheckin | undefined
+
+    if (!(after && after.accepted && before && !before.accepted)) return
+
+    const db = admin.firestore()
+    const checkin = context.params.checkin
+    const user = after.user
+    const event = after.id
+
+    const doc = db
+      .collection('users')
+      .doc(String(user))
+      .collection('balls')
+      .doc(checkin)
+
+    if ((await doc.get()).exists) return
+
+    await db.runTransaction(async tr => {
+      const rate = await tr.get(db.collection('rating').doc(String(user)))
+
+      const balls = rate.exists ? rate.data()!.total : 0
+
+      tr.create(doc, {
+        type: 'checkin',
+        checkin,
+        event,
+        balls: 50,
+        createdAt: admin.firestore.Timestamp.now(),
+      })
+      tr.set(db.collection('rating').doc(String(user)), {user, total: balls + 50}, {merge: true})
+    })
+  })
