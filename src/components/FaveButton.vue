@@ -1,9 +1,9 @@
 <template>
-  <v-btn small text color="primary" @click="exists ? del() : add()">
-    {{ exists ? 'Убрать из избранного' : 'В избранное' }}
+  <v-btn icon :color="exists ? 'red' : 'primary'" @click="exists ? del() : add()">
+    <v-icon>{{ exists ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
     <v-dialog v-model="loginModal" width="500">
       <v-card>
-        <v-card-title class="headline" primary-title>Нужно войти</v-card-title>
+        <v-card-title primary-title>Нужно войти</v-card-title>
 
         <v-card-text>
           Чтобы добавлять события в избранное, войдите через ВКонтакте (это займёт меньше минуты!)
@@ -23,7 +23,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar" bottom color="success" :timeout="2500">
-      {{ exists ? 'Добавлено!' : 'Удалено!' }}
+      {{ exists ? 'добавлено в избранное' : 'больше не избранное' }}
     </v-snackbar>
   </v-btn>
 </template>

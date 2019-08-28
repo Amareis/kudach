@@ -24,17 +24,22 @@
       @load="imageLoaded = true"
     />
 
-    <v-card-actions>
-      <v-btn
-        text
-        small
-        color="info"
-        :href="'https://vk.com/' + (isGroup ? 'club' + Math.abs(sourceId) : 'wall' + id)"
-        target="_blank"
-        >{{ isGroup ? 'Событие ВК' : 'Пост ВК' }}</v-btn
-      >
-      <v-spacer />
-      <fave-button :id="id" />
+    <v-card-actions class="actions">
+      <v-layout>
+        <fave-button :id="id" />
+      </v-layout>
+      <v-layout justify-center>
+        <v-btn
+          text
+          color="info"
+          :href="'https://vk.com/' + (isGroup ? 'club' + Math.abs(sourceId) : 'wall' + id)"
+          target="_blank"
+          >{{ isGroup ? 'Событие ВК' : 'Пост ВК' }}</v-btn
+        >
+      </v-layout>
+      <v-layout justify-end>
+        <checkin-button :id="id" />
+      </v-layout>
     </v-card-actions>
   </v-card>
 </template>
@@ -47,11 +52,12 @@ import {IPhotoSize} from '@/vk'
 
 import Header from './Header.vue'
 import FaveButton from './FaveButton.vue'
+import CheckinButton from './CheckinButton.vue'
 
 const len = 150
 
 @Component({
-  components: {Header, FaveButton},
+  components: {Header, FaveButton, CheckinButton},
 })
 export default class Card extends Vue {
   @Prop() private readonly id!: string
@@ -104,6 +110,11 @@ export default class Card extends Vue {
     -webkit-font-smoothing: subpixel-antialiased;
     cursor: pointer;
     color: #42648b;
+  }
+}
+.actions {
+  & > * {
+    flex-basis: 0
   }
 }
 </style>

@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/storage'
 
 import DocumentReference = firebase.firestore.DocumentReference
 import CollectionReference = firebase.firestore.CollectionReference
@@ -18,8 +19,9 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 const auth = firebase.auth()
+const storage = firebase.storage()
 
-export {firebase, auth}
+export {firebase, auth, storage}
 export default db
 
 export interface IEvent {
@@ -29,18 +31,32 @@ export interface IEvent {
   createdAt: string
 }
 
-export function live(r: DocumentReference, onChange: (s: DocumentSnapshot) => void): Promise<void>
-export function live(r: CollectionReference, onChange: (s: QuerySnapshot) => void): Promise<void>
+export interface ICheckin {
+  id: string
+  user: number
+  accepted: boolean
+  photos: string[]
+  createdAt: string
+}
+
+export function live(
+  r: DocumentReference,
+  onChange: (s: DocumentSnapshot) => void,
+): Promise<() => void>
+export function live(
+  r: CollectionReference,
+  onChange: (s: QuerySnapshot) => void,
+): Promise<() => void>
 export function live(
   r: DocumentReference | CollectionReference,
   onChange: (a: any) => void,
-): Promise<void> {
+): Promise<() => void> {
   const s = r.onSnapshot.bind(r) as any
   return new Promise(resolve => {
     let resolved = false
-    s((a: any) => {
+    let un = s((a: any) => {
       if (!resolved) {
-        resolve()
+        resolve(un)
         resolved = true
       }
       onChange(a)

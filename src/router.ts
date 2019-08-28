@@ -7,6 +7,7 @@ import List from '@/views/List.vue'
 import Details from '@/views/Details.vue'
 import Profile from '@/views/Profile.vue'
 import Favorite from '@/views/Favorite.vue'
+import Checkin from '@/views/Checkin.vue'
 
 const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
 const Create = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Create.vue')
@@ -36,6 +37,13 @@ export default new VueRouter({
       name: 'details',
       component: Details,
       props: true,
+    },
+    {
+      path: '/checkin/:id',
+      name: 'checkin',
+      component: Checkin,
+      props: true,
+      beforeEnter: needAuth,
     },
     {
       path: '/me',
