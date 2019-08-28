@@ -37,6 +37,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import db, {storage, ICheckin} from '@/db'
 import SourceName from '@/components/SourceName.vue'
 import ItemLoader from '@/components/ItemLoader.vue'
+import {auth} from '@/store'
 
 @Component({
   components: {ItemLoader, SourceName},
@@ -65,7 +66,7 @@ export default class CheckinEdit extends Vue {
     await db
       .collection('checkins')
       .doc(this.uid)
-      .update('accepted', accept)
+      .update('accepted', accept, 'acceptedBy', auth.user!.id)
     this.hidden = true
   }
 }
