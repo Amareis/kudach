@@ -16,9 +16,9 @@
             Закрыть
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" :to="{name: 'profile'}">
+          <login-button color="primary" @login="checkin">
             Войти
-          </v-btn>
+          </login-button>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -28,8 +28,10 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {auth} from '@/store'
-
-@Component
+import LoginButton from '@/components/LoginButton.vue'
+@Component({
+  components: {LoginButton},
+})
 export default class CheckinButton extends Vue {
   @Prop() private readonly id!: string
 

@@ -20,11 +20,14 @@ export class Auth extends VuexModule {
   }
 
   @Action async load() {
-    await new Promise(resolve =>
-      auth.onAuthStateChanged(user => {
-        this.handleUserId(user && user.uid).then(resolve)
-      }),
-    )
+    await new Promise(resolve => {
+      const un = auth.onAuthStateChanged(user => {
+        this.handleUserId(user && user.uid).then(() => {
+          un()
+          resolve()
+        })
+      })
+    })
   }
 
   @Action private async handleUserId(userId: string | null) {
@@ -42,11 +45,13 @@ export class Auth extends VuexModule {
   }
 
   @Action async login(token: string) {
-    return await auth.signInWithCustomToken(token)
+    const {user} = await auth.signInWithCustomToken(token)
+    await this.handleUserId(user && user.uid)
   }
 
   @Action async logout() {
-    return await auth.signOut()
+    await auth.signOut()
+    await this.handleUserId(null)
   }
 
   get isAdmin() {

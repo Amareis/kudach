@@ -55,7 +55,6 @@ export default new VueRouter({
       path: '/favorite',
       name: 'favorite',
       component: Favorite,
-      beforeEnter: needAuth,
     },
     {
       path: '/rating',

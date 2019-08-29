@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon :color="exists ? 'red' : 'primary'" @click="exists ? del() : add()">
+  <v-btn icon :color="exists ? 'red' : 'primary'" @click="handle">
     <v-icon>{{ exists ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
     <v-dialog v-model="loginModal" width="500">
       <v-card>
@@ -16,9 +16,9 @@
             Закрыть
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" :to="{name: 'profile'}">
+          <login-button color="primary" @login="onLogin">
             Войти
-          </v-btn>
+          </login-button>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -36,8 +36,11 @@ import db from '@/db'
 import {auth} from '@/store'
 
 import {IUser} from '@/vk'
+import LoginButton from '@/components/LoginButton.vue'
 
-@Component
+@Component({
+  components: {LoginButton},
+})
 export default class FaveButton extends Vue {
   @Prop() private readonly id!: string
 
@@ -53,10 +56,25 @@ export default class FaveButton extends Vue {
       .doc(this.id)
   }
 
-  async created() {
+  created() {
+    this.load()
+  }
+
+  async load() {
     if (!auth.user) return
     const doc = await this.query(auth.user).get()
     this.exists = doc.exists
+  }
+
+  async onLogin() {
+    this.loginModal = false
+    await this.load()
+    this.handle()
+  }
+
+  handle() {
+    if (this.exists) this.del()
+    else this.add()
   }
 
   async add() {

@@ -16,7 +16,7 @@
     <v-card v-else>
       <v-card-actions class="py-5">
         <v-spacer />
-        <v-btn color="success" @click="login" large>Войти через ВК</v-btn>
+        <login-button color="success" large>Войти через ВК</login-button>
         <v-spacer />
       </v-card-actions>
     </v-card>
@@ -25,16 +25,15 @@
 
 <script lang="ts">
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import Cookies from 'js-cookie'
 
 import db from '@/db'
 import {auth} from '@/store'
-import {wait} from '@/utils'
 
 import SourceName from '@/components/SourceName.vue'
+import LoginButton from '@/components/LoginButton.vue'
 
 @Component({
-  components: {SourceName},
+  components: {SourceName, LoginButton},
 })
 export default class Profile extends Vue {
   auth = auth
@@ -50,7 +49,7 @@ export default class Profile extends Vue {
   }
 
   @Watch('user', {immediate: true})
-  async getBalls(id: string) {
+  async getBalls() {
     if (!this.user) {
       this.balls = 0
       return
@@ -61,27 +60,6 @@ export default class Profile extends Vue {
       .get()
     if (!r.exists) this.balls = 0
     else this.balls = r.data()!.total
-  }
-
-  async login() {
-    const {origin} = location
-    const w = window.open(
-      `https://oauth.vk.com/authorize?client_id=7102165&display=popup&response_type=code&redirect_uri=${origin}/authvk`,
-      undefined,
-      'width=400,height=500,left=100,top=100,toolbar=0,menubar=0,location=0',
-    )!
-
-    let firetoken: string | null = null
-    while (!firetoken) {
-      if (w.closed) return
-      await wait(200)
-      firetoken = Cookies.get('firetoken') || null
-      if (firetoken) w.close()
-    }
-    Cookies.remove('firetoken')
-    if (firetoken === 'no') return
-
-    await auth.login(firetoken)
   }
 }
 </script>

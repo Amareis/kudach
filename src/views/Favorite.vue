@@ -1,6 +1,23 @@
 <template>
   <v-layout column>
     <portal to="header-title">Избранное</portal>
+    <v-card v-if="showLogin">
+      <v-card-title primary-title>Нужно войти</v-card-title>
+
+      <v-card-text>
+        Чтобы просматривать избранное, войдите через ВКонтакте (это займёт меньше минуты!)
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <login-button color="primary" @login="load">
+          Войти
+        </login-button>
+      </v-card-actions>
+    </v-card>
+
     <v-layout column v-if="items" v-scroll="checkScroll">
       <v-card v-if="!items.length" class="mt-3">
         <v-card-text>Пока вы ничего не добавили в избранное!</v-card-text>
@@ -22,11 +39,12 @@ import {auth} from '@/store'
 import db from '@/db'
 
 import ItemLoader from '@/components/ItemLoader.vue'
+import LoginButton from '@/components/LoginButton.vue'
 
 type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 
 @Component({
-  components: {ItemLoader},
+  components: {LoginButton, ItemLoader},
 })
 export default class Favorite extends Vue {
   loading = false
@@ -35,8 +53,10 @@ export default class Favorite extends Vue {
   last: QueryDocumentSnapshot | null = null
   portion = 15
 
+  showLogin = !auth.user
+
   created() {
-    this.load()
+    if (auth.user) this.load()
   }
 
   query() {
@@ -48,6 +68,7 @@ export default class Favorite extends Vue {
   }
 
   async load(more = false) {
+    this.showLogin = false
     if (this.loading || (more && !this.last)) return
 
     if (!more) this.items = null
