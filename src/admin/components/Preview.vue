@@ -2,7 +2,7 @@
   <v-layout column>
     <Events v-if="!onlyFrame" :id="id" edit />
     <slot :id="id" />
-    <item-loader :id="id" />
+    <item-loader :id="id" short />
   </v-layout>
 </template>
 

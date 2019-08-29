@@ -14,6 +14,9 @@
           <v-list-item v-if="canOpen" :to="'/e/' + id">
             <v-list-item-title>Открыть</v-list-item-title>
           </v-list-item>
+          <v-list-item v-if="auth.isAdmin" :to="{name: 'edit', params: {id}}">
+            <v-list-item-title>Редактировать</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-list-item-action>
@@ -40,6 +43,7 @@ import moment from 'moment'
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
 import {IEvent} from '@/db'
+import {auth} from '@/store'
 
 import SourceName from './SourceName.vue'
 
@@ -67,6 +71,10 @@ export default class Header extends Vue {
   @Prop() private readonly events!: IEvent[]
 
   show = false
+
+  get auth() {
+    return auth
+  }
 
   get sorted() {
     return [...this.events].sort(
