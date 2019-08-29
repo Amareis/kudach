@@ -1,13 +1,11 @@
 <template>
   <v-layout column>
-    <portal to="header">
-      <v-app-bar app>
-        <v-app-bar-nav-icon>
-          <back-button />
-        </v-app-bar-nav-icon>
-        <v-toolbar-title>Чекин на событии</v-toolbar-title>
-      </v-app-bar>
+    <portal to="header-icon">
+      <v-app-bar-nav-icon>
+        <back-button />
+      </v-app-bar-nav-icon>
     </portal>
+    <portal to="header-title">Чекин на событии</portal>
 
     <v-layout v-if="loading" justify-center><v-progress-circular indeterminate/></v-layout>
     <v-card v-else>

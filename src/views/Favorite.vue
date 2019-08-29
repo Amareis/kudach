@@ -1,5 +1,6 @@
 <template>
   <v-layout column>
+    <portal to="header-title">Избранное</portal>
     <v-layout column v-if="items" v-scroll="checkScroll">
       <v-card v-if="!items.length" class="mt-3">
         <v-card-text>Пока вы ничего не добавили в избранное!</v-card-text>

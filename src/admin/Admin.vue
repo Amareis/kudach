@@ -1,5 +1,6 @@
 <template>
   <v-layout>
+    <portal to="header-title">Админка</portal>
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.smAndDown"
       temporary

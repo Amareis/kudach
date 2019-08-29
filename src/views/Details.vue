@@ -1,13 +1,11 @@
 <template>
   <v-layout column>
-    <portal to="header">
-      <v-app-bar app>
-        <v-app-bar-nav-icon>
-          <back-button />
-        </v-app-bar-nav-icon>
-        <v-toolbar-title>Событие</v-toolbar-title>
-      </v-app-bar>
+    <portal to="header-icon">
+      <v-app-bar-nav-icon>
+        <back-button />
+      </v-app-bar-nav-icon>
     </portal>
+    <portal to="header-title">Событие</portal>
     <item-loader :id="id" />
   </v-layout>
 </template>

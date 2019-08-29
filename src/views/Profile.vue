@@ -1,5 +1,6 @@
 <template>
   <v-layout column>
+    <portal to="header-title">Профиль</portal>
     <v-card v-if="auth.user">
       <source-name :id="auth.user.id" no-link>
         <v-btn text color="primary" large> {{ balls }} баллов </v-btn>

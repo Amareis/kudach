@@ -1,13 +1,13 @@
 <template>
   <v-layout column>
-    <portal v-if="date && active" to="header">
-      <v-app-bar app>
+    <template v-if="date && active">
+      <portal to="header-icon">
         <v-app-bar-nav-icon>
           <back-button />
         </v-app-bar-nav-icon>
-        <v-toolbar-title>{{ dateText }}</v-toolbar-title>
-      </v-app-bar>
-    </portal>
+      </portal>
+      <portal to="header-title">{{ dateText }}</portal>
+    </template>
     <v-layout column v-if="items" :style="{position: 'relative'}" v-scroll="checkScroll">
       <template v-if="active">
         <portal v-if="smallScreens" to="header-right">
@@ -29,7 +29,19 @@
         </portal>
       </template>
 
-      <v-card v-if="!items.length" class="mt-3">
+      <v-card v-if="!date" class="mb-4">
+        <v-card-text class="pb-2 black--text"
+          >Привет! Это - Кудач. Мы собираем живые события и активных людей. Cобытия - ниже, а люди -
+          в
+          <router-link :to="{name: 'rating'}">нашем рейтинге</router-link>
+        </v-card-text>
+        <v-card-actions class="pt-0">
+          <v-btn text color="info" href="https://vk.com/kuda_ch" target="_blank">Группа ВК</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+
+      <v-card v-if="!items.length">
         <v-card-text>Событий нет :(</v-card-text>
       </v-card>
 
@@ -59,6 +71,7 @@ type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 
 @Component({
   components: {Post, Item, DatePicker, BackButton},
+  name: 'List',
 })
 export default class List extends Vue {
   @Prop({required: false}) private readonly date!: string

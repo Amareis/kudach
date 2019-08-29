@@ -1,5 +1,6 @@
 <template>
   <v-layout column>
+    <portal to="header-title">Рейтинг</portal>
     <v-card v-for="(i, ind) in items" :key="i.user" class="mb-2">
       <source-name :id="i.user" :subtitles="[ind + 1 + ' место']">
         <v-btn text color="primary" @click.prevent=""> {{ i.total }} баллов </v-btn>

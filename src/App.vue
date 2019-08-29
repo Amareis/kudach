@@ -1,30 +1,20 @@
 <template>
   <v-app>
-    <portal-target name="header">
-      <v-app-bar app>
+    <v-app-bar app>
+      <portal-target name="header-icon">
         <v-app-bar-nav-icon v-if="$vuetify.breakpoint.sm" @click="drawer = true" />
-        <v-row no-gutters>
-          <v-col v-if="$vuetify.breakpoint.smAndUp" class="d-flex align-center">
-            <v-toolbar-title class="selectNone">Кудач</v-toolbar-title>
-          </v-col>
-          <v-col>
-            <v-row no-gutters :justify="$vuetify.breakpoint.smAndUp ? 'center' : 'start'">
-              <v-btn
-                outlined
-                color="info"
-                href="https://vk.com/kuda_ch"
-                target="_blank"
-                class="px-3"
-                >Мы ВКонтакте</v-btn
-              >
-            </v-row>
-          </v-col>
-          <v-col>
-            <portal-target name="header-right" />
-          </v-col>
-        </v-row>
-      </v-app-bar>
-    </portal-target>
+      </portal-target>
+      <v-row no-gutters>
+        <v-col class="d-flex align-center">
+          <v-toolbar-title class="selectNone">
+            <portal-target name="header-title">Кудач</portal-target>
+          </v-toolbar-title>
+        </v-col>
+        <v-col>
+          <portal-target name="header-right" />
+        </v-col>
+      </v-row>
+    </v-app-bar>
     <v-navigation-drawer v-if="$vuetify.breakpoint.sm" app temporary v-model="drawer">
       <nav-list :admin="auth.isAdmin" />
     </v-navigation-drawer>
@@ -40,7 +30,7 @@
               </v-card>
             </v-layout>
           </v-col>
-          <v-col cols="12" sm="10" md="6">
+          <v-col cols="12" sm="10" md="6" lg="5" xl="4">
             <v-row v-if="!loader.loaded || hasMajorUpdate" justify="center"
               ><v-progress-circular indeterminate
             /></v-row>
