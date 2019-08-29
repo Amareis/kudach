@@ -61,7 +61,6 @@ export default new VueRouter({
       path: '/rating',
       name: 'rating',
       component: Rating,
-      beforeEnter: needAuth,
     },
     {
       path: '/admin',
