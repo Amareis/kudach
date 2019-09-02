@@ -18,7 +18,7 @@ import Group from './Group.vue'
 export default class Item extends Vue {
   @Prop() private readonly item!: IGroup | IPost
   @Prop({default: false}) private readonly short!: boolean
-  @Prop() private readonly possibleEvents!: IEvent[]
+  @Prop({default: () => []}) private readonly possibleEvents!: IEvent[]
 
   get isPost() {
     return isPost(this.item)

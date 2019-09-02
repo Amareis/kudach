@@ -102,8 +102,10 @@ export default {
         .collection('events')
         .where('id', '==', this.id)
         .get()
-      this.events = e.docs.map(d => ({...d.data(), uid: d.id}))
+      const events = e.docs.map(d => ({...d.data(), uid: d.id}))
+      this.events = events
       this.creating = !this.events.length
+      this.$emit('change', events)
     },
     date(m) {
       return moment(m).calendar(null, timeFormat)

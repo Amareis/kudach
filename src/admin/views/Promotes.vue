@@ -52,7 +52,7 @@ import db, {auth} from '@/db'
 
 import ItemLoader from '@/components/ItemLoader'
 
-import ItemGetter from '../components/ItemGetter'
+import ItemGetter from '../../components/ItemGetter'
 import Preview from '../components/Preview'
 
 export default {

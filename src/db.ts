@@ -39,6 +39,13 @@ export interface ICheckin {
   createdAt: string
 }
 
+export interface IProposed {
+  id: string
+  user: number
+  accepted: boolean | null
+  createdAt: string
+}
+
 export function live(
   r: DocumentReference,
   onChange: (s: DocumentSnapshot) => void,

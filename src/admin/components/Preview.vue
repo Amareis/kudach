@@ -8,7 +8,7 @@
 
 <script>
 import Events from './Events'
-import ItemLoader from '@/components/ItemLoader'
+import ItemLoader from '../../components/ItemLoader'
 
 export default {
   name: 'Preview',

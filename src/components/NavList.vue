@@ -36,7 +36,7 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item v-if="admin" link :to="{name: 'create'}">
+    <v-list-item v-if="admin" link :to="{name: 'checkins'}">
       <v-list-item-icon class="mr-3">
         <v-icon>mdi-pencil-outline</v-icon>
       </v-list-item-icon>

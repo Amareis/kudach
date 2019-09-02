@@ -24,7 +24,7 @@
       @load="imageLoaded = true"
     />
 
-    <v-card-actions class="actions">
+    <v-card-actions class="actions" v-if="events.length">
       <v-layout>
         <fave-button :id="id" />
       </v-layout>

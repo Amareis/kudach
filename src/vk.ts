@@ -9,6 +9,7 @@ interface BaseVk {
 export interface IPost extends BaseVk {
   owner_id: number
   attachments: IAttachment[]
+  copy_history?: IPost[]
 }
 
 export interface IGroup extends BaseVk {
@@ -63,6 +64,11 @@ export function biggestOf(photo: IPhoto) {
 
 export function postId(post: IPost) {
   return post.owner_id + '_' + post.id
+}
+
+export function idOf(item: IPost | IGroup) {
+  if (isPost(item)) return postId(item)
+  return String(item.id)
 }
 
 function encode(obj: Params) {

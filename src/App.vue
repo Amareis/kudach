@@ -73,7 +73,7 @@
         icon
         :ripple="{center: true}"
         class="navBtn"
-        :to="{name: 'create'}"
+        :to="{name: 'checkins'}"
       >
         <v-icon>mdi-pencil-outline</v-icon>
       </v-btn>

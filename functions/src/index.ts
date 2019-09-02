@@ -11,6 +11,13 @@ export interface ICheckin {
   createdAt: string
 }
 
+export interface IProposed {
+  id: string
+  user: number
+  accepted: boolean | null
+  createdAt: string
+}
+
 admin.initializeApp()
 
 function send(url: string) {
@@ -110,5 +117,40 @@ export const checkinBalls = functions.firestore
         createdAt: admin.firestore.Timestamp.now(),
       })
       tr.set(db.collection('rating').doc(String(user)), {user, total: balls + 50}, {merge: true})
+    })
+  })
+
+export const proposalBalls = functions.firestore
+  .document('proposed/{proposed}')
+  .onWrite(async (change, context) => {
+    const after = change.after.data() as IProposed | undefined
+    const before = change.before.data() as IProposed | undefined
+
+    if (!(after && after.accepted && before && !before.accepted)) return
+
+    const db = admin.firestore()
+    const proposed = context.params.proposed as string
+    const user = after.user
+
+    const doc = db
+      .collection('users')
+      .doc(String(user))
+      .collection('balls')
+      .doc(proposed)
+
+    if ((await doc.get()).exists) return
+
+    await db.runTransaction(async tr => {
+      const rate = await tr.get(db.collection('rating').doc(String(user)))
+
+      const balls = rate.exists ? rate.data()!.total : 0
+
+      tr.create(doc, {
+        type: 'proposed',
+        proposed,
+        balls: 20,
+        createdAt: admin.firestore.Timestamp.now(),
+      })
+      tr.set(db.collection('rating').doc(String(user)), {user, total: balls + 20}, {merge: true})
     })
   })

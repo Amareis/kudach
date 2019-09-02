@@ -29,17 +29,7 @@
         </portal>
       </template>
 
-      <v-card v-if="!date" class="mb-4">
-        <v-card-text class="pb-2 black--text"
-          >Привет! Это - Кудач. Мы собираем живые события и активных людей. Cобытия - ниже, а люди -
-          в
-          <router-link :to="{name: 'rating'}">нашем рейтинге</router-link>
-        </v-card-text>
-        <v-card-actions class="pt-0">
-          <v-btn text color="info" href="https://vk.com/kuda_ch" target="_blank">Группа ВК</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
+      <hello-card v-if="!date" class="mb-4" />
 
       <v-card v-if="!items.length">
         <v-card-text>Событий нет :(</v-card-text>
@@ -66,11 +56,12 @@ import Item from '@/components/Item.vue'
 import DatePicker from '@/components/DatePicker.vue'
 import Post from '@/components/Post.vue'
 import BackButton from '@/components/BackButton.vue'
+import HelloCard from '@/components/HelloCard.vue'
 
 type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
 
 @Component({
-  components: {Post, Item, DatePicker, BackButton},
+  components: {Post, Item, DatePicker, BackButton, HelloCard},
   name: 'List',
 })
 export default class List extends Vue {

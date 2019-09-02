@@ -9,9 +9,10 @@ import Profile from '@/views/Profile.vue'
 import Favorite from '@/views/Favorite.vue'
 import Checkin from '@/views/Checkin.vue'
 import Rating from '@/views/Rating.vue'
+import Proposals from '@/views/Proposals.vue'
 
 const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
-const Create = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Create.vue')
+const Checkins = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Checkins.vue')
 const Edit = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Edit.vue')
 const Promotes = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Promotes.vue')
 
@@ -62,14 +63,19 @@ export default new VueRouter({
       component: Rating,
     },
     {
+      path: '/proposals',
+      name: 'proposals',
+      component: Proposals,
+    },
+    {
       path: '/admin',
       component: Admin,
       beforeEnter: needAuth,
       children: [
         {
           path: '',
-          name: 'create',
-          component: Create,
+          name: 'checkins',
+          component: Checkins,
         },
         {
           path: 'edit/:id',
