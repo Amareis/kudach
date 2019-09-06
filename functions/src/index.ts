@@ -68,11 +68,21 @@ export const authvk = functions.https.onRequest(async (request, response) => {
     const id = String(user_id)
     const [user] = await get('users.get', access_token, {user_ids: id})
 
-    await admin
+    const doc = admin
       .firestore()
       .collection('users')
       .doc(String(id))
-      .set({id, name: user.first_name + ' ' + user.last_name}, {merge: true})
+
+    const u = await doc.get()
+
+    await doc.set(
+      {
+        id,
+        name: user.first_name + ' ' + user.last_name,
+        ...(u.exists ? {} : {registerAt: admin.firestore.Timestamp.now()}),
+      },
+      {merge: true},
+    )
 
     const token = await admin.auth().createCustomToken(id)
     response.cookie('firetoken', token)
