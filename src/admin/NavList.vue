@@ -17,5 +17,14 @@
         <v-list-item-title>Рекламные посты</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
+    <v-list-item :to="{name: 'stats'}">
+      <v-list-item-icon class="mr-3">
+        <v-icon>mdi-chart-line</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Статистика</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
   </v-list>
 </template>

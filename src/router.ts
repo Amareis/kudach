@@ -15,6 +15,7 @@ const Admin = () => import(/* webpackChunkName: "admin" */ '@/admin/Admin.vue')
 const Checkins = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Checkins.vue')
 const Edit = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Edit.vue')
 const Promotes = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Promotes.vue')
+const Stats = () => import(/* webpackChunkName: "admin" */ '@/admin/views/Stats.vue')
 
 Vue.use(VueRouter)
 
@@ -87,6 +88,11 @@ export default new VueRouter({
           path: 'promotes',
           name: 'promotes',
           component: Promotes,
+        },
+        {
+          path: 'stats',
+          name: 'stats',
+          component: Stats,
         },
       ],
     },
