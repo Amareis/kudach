@@ -46,7 +46,6 @@ export default new VueRouter({
       name: 'checkin',
       component: Checkin,
       props: true,
-      beforeEnter: needAuth,
     },
     {
       path: '/me',
