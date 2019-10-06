@@ -96,7 +96,7 @@ export default class ItemGetter extends Vue {
       return
     }
     try {
-      let group = (await getGroups(id))[0]
+      let group = (await getGroups(id, true))[0]
       if (!group) {
         this.error = 'Группа не найдена'
         return

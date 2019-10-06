@@ -13,6 +13,7 @@ export interface IPost extends BaseVk {
 }
 
 export interface IGroup extends BaseVk {
+  screen_name: string
   name: string
   photo_50: string
   description?: string
@@ -113,7 +114,9 @@ export async function getGroups(groups: Array<string | null> | string, full = fa
     group_ids: ids,
     fields: full ? 'description,crop_photo' : undefined,
   })
-  return groups.split(',').map(id => res.find(g => g && g.id === +id) || null)
+  return groups
+    .split(',')
+    .map(id => res.find(g => g && (g.id === +id || g.screen_name === id)) || null)
 }
 
 export async function getItems(items: Array<string | null> | string) {

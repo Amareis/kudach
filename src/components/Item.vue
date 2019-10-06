@@ -25,7 +25,7 @@ export default class Item extends Vue {
   }
 
   get id() {
-    return isPost(this.item) ? this.item.owner_id + '_' + this.item.id : String(-this.item.id)
+    return isPost(this.item) ? this.item.owner_id + '_' + this.item.id : String(this.item.id)
   }
 
   get events() {
