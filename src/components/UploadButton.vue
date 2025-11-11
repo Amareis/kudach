@@ -42,12 +42,13 @@ export default class UploadButton extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
-.input
-  position absolute
-  height 0.1px
-  width 0.1px
-  overflow hidden
-  opacity 0
-  z-index -1
+<style scoped>
+.input {
+  position: absolute;
+  height: 0.1px;
+  width: 0.1px;
+  overflow: hidden;
+  opacity: 0;
+  z-index: -1;
+}
 </style>

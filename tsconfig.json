@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -12,9 +13,12 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "vite/client",
+      "node"
     ],
     "paths": {
       "@/*": [
@@ -33,9 +37,11 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "vite.config.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

@@ -135,11 +135,14 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="stylus" scoped>
-.selectNone
-  user-select none
-.navBtn
-  min-width 0 !important
-.navBtn:hover:before
-  opacity 0
+<style scoped>
+.selectNone {
+  user-select: none;
+}
+.navBtn {
+  min-width: 0 !important;
+}
+.navBtn:hover:before {
+  opacity: 0;
+}
 </style>

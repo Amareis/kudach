@@ -98,7 +98,7 @@ export default class Card extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
 .post {
   white-space: pre-wrap;
   word-break: break-word;

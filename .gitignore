@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/dist-ssr
 .firebase
 
 # local env files
@@ -11,6 +12,7 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 firebase-debug.log
 
 # Editor directories and files
@@ -21,3 +23,8 @@ firebase-debug.log
 *.njsproj
 *.sln
 *.sw?
+
+# Vite
+*.local
+.cache
+dev-dist

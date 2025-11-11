@@ -3,7 +3,7 @@ import VueAnalytics from 'vue-analytics'
 
 import router from '@/router'
 
-if (process.env.NODE_ENV === 'production')
+if (import.meta.env.MODE === 'production')
   Vue.use(VueAnalytics, {
     id: 'UA-138700126-1',
     router,

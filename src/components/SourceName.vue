@@ -57,7 +57,7 @@ export default class SourceName extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
 .name {
   font-size: 15px;
   font-weight: 500;

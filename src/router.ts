@@ -27,7 +27,7 @@ const needAuth: NavigationGuard = async (to, from, next) => {
 
 export default new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: import.meta.env.BASE_URL,
   routes: [
     {
       path: '/',

@@ -1,29 +1,49 @@
-# kudach
+# Кудач
 
-## Project setup
-```
+Progressive Web Application для управления событиями и мероприятиями с социальной составляющей.
+
+## Технологии
+
+- **Vue 2.7** с TypeScript
+- **Vite 5** - быстрая сборка и dev-сервер
+- **Vuetify 2** - Material Design UI
+- **Firebase** - backend и хостинг
+- **PWA** - офлайн поддержка
+
+## Установка
+
+```bash
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
+## Разработка
+
+Запуск dev-сервера с hot-reload:
+```bash
+yarn dev
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
+Приложение будет доступно на http://localhost:8088
+
+## Production
+
+Сборка для production:
+```bash
+yarn build
 ```
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
+Предпросмотр production сборки:
+```bash
+yarn preview
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Деплой на Firebase:
+```bash
+yarn deploy
+```
+
+## Линтинг
+
+```bash
+yarn lint
+```
