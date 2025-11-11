@@ -2,11 +2,17 @@ import {defineConfig} from 'vite'
 import {createVuePlugin} from 'vite-plugin-vue2'
 import {VitePWA} from 'vite-plugin-pwa'
 import path from 'path'
+import Components from 'unplugin-vue-components/vite'
+import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     createVuePlugin(),
+    Components({
+      resolvers: [VuetifyResolver()],
+      version: 2.7,
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
@@ -70,7 +76,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
-    dedupe: ['vue', 'vue-router'],
   },
   server: {
     port: 8088,

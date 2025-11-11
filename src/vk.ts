@@ -79,7 +79,7 @@ function encode(obj: Params) {
   return str.join('&')
 }
 
-const token = '669e0c81669e0c81669e0c816066f252546669e669e0c813bc727eac694af31ebd4bfd8'
+const token = 'fbfc9ee3fbfc9ee3fbfc9ee379f8c05c83ffbfcfbfc9ee392efdf13fba9e67b2b7033a9'
 
 function get<T = any>(m: string, params: Params) {
   const url = `https://api.vk.com/method/${m}?v=5.101&access_token=${token}&${encode(params)}`

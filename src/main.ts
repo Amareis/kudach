@@ -1,6 +1,5 @@
 import 'reflect-metadata'
 
-import './plugins/sentry'
 import './plugins/regSw'
 import './plugins/analytics'
 

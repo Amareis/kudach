@@ -14,7 +14,7 @@ export default class LoginButton extends Vue {
   async login() {
     const {origin} = location
     const w = window.open(
-      `https://oauth.vk.com/authorize?client_id=7102165&display=popup&response_type=code&redirect_uri=${origin}/authvk`,
+      `https://oauth.vk.com/authorize?client_id=54313568&display=popup&response_type=code&redirect_uri=${origin}/authvk`,
       undefined,
       'width=400,height=500,left=100,top=100,toolbar=0,menubar=0,location=0',
     )!
