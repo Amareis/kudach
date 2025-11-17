@@ -18,10 +18,9 @@ export default class Checkins extends Vue {
   checkins: ICheckin[] = []
 
   async created() {
-    this.checkins = (await db
-      .collection('checkins')
-      .where('accepted', '==', null)
-      .get()).docs.map(d => d.data() as ICheckin)
+    this.checkins = (await db.collection('checkins').where('accepted', '==', null).get()).docs.map(
+      (d) => d.data() as ICheckin,
+    )
   }
 }
 </script>

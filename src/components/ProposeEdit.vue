@@ -9,13 +9,9 @@
     <template v-if="canEdit">
       <Events :id="propose.id" edit @change="events = $event.length" />
       <v-card-actions>
-        <v-btn color="error" text @click="accept(false)">
-          Отклонить
-        </v-btn>
+        <v-btn color="error" text @click="accept(false)"> Отклонить </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="success" text :disabled="events === 0" @click="accept(true)">
-          Принять
-        </v-btn>
+        <v-btn color="success" text :disabled="events === 0" @click="accept(true)"> Принять </v-btn>
       </v-card-actions>
     </template>
 
@@ -39,7 +35,7 @@ import Events from '@/admin/components/Events.vue'
 export default class CheckinEdit extends Vue {
   @Prop() private readonly propose!: IProposed
 
-  events: number = 0
+  events = 0
 
   hidden = false
 

@@ -31,11 +31,9 @@ export default class Rating extends Vue {
   items: IRate[] = []
 
   async created() {
-    this.items = (await db
-      .collection('rating')
-      .orderBy('total', 'desc')
-      .limit(30)
-      .get()).docs.map(d => d.data() as IRate)
+    this.items = (await db.collection('rating').orderBy('total', 'desc').limit(30).get()).docs.map(
+      (d) => d.data() as IRate,
+    )
   }
 }
 </script>

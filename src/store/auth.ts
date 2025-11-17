@@ -20,8 +20,8 @@ export class Auth extends VuexModule {
   }
 
   @Action async load() {
-    await new Promise(resolve => {
-      const un = auth.onAuthStateChanged(user => {
+    await new Promise((resolve) => {
+      const un = auth.onAuthStateChanged((user) => {
         this.handleUserId(user && user.uid).then(() => {
           un()
           resolve()
@@ -34,10 +34,7 @@ export class Auth extends VuexModule {
     if (userId) {
       const [[u], d] = await Promise.all([
         getUsers(userId),
-        db
-          .collection('users')
-          .doc(userId)
-          .get(),
+        db.collection('users').doc(userId).get(),
       ])
       this.setUser(u)
       this.setScope((d.data() || {}).scope || [])

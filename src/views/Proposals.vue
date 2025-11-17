@@ -18,9 +18,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <login-button color="primary" @login="showLogin = false">
-          Войти
-        </login-button>
+        <login-button color="primary" @login="showLogin = false"> Войти </login-button>
       </v-card-actions>
     </v-card>
 
@@ -56,7 +54,7 @@ export default class Proposals extends Vue {
       .where('accepted', '==', null)
       .orderBy('createdAt')
       .get()
-    this.proposals = d.docs.map(d => d.data() as IProposed)
+    this.proposals = d.docs.map((d) => d.data() as IProposed)
   }
 }
 </script>

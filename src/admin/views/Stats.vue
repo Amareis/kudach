@@ -55,10 +55,11 @@
 import {Component, Vue} from 'vue-property-decorator'
 import db, {ICheckin, IEvent, firebase} from '@/db'
 import moment from 'moment'
-import Query = firebase.firestore.Query
+
+type Query = firebase.firestore.Query
 
 async function map<T = any>(q: Query) {
-  return (await q.get()).docs.map(d => d.data() as T)
+  return (await q.get()).docs.map((d) => d.data() as T)
 }
 
 @Component({})
@@ -75,7 +76,7 @@ export default class Stats extends Vue {
   events: IEvent[] = []
 
   get uniqueCheckins() {
-    return [...new Set(this.checkins.map(c => c.user))]
+    return [...new Set(this.checkins.map((c) => c.user))]
   }
 
   get sum() {

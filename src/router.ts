@@ -33,7 +33,7 @@ export default new VueRouter({
       path: '/',
       name: 'list',
       component: List,
-      props: route => ({date: route.query.date}),
+      props: (route) => ({date: route.query.date}),
     },
     {
       path: '/e/:id',

@@ -19,7 +19,7 @@ export class Settings extends VuexModule {
   }
 
   @Action async load() {
-    await live(db.collection('other').doc('settings'), s => this.set(s.data()))
+    await live(db.collection('other').doc('settings'), (s) => this.set(s.data()))
   }
 
   get hasMajorUpdate() {

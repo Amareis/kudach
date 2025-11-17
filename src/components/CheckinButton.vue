@@ -12,13 +12,9 @@
         <v-divider></v-divider>
 
         <v-card-actions>
-          <v-btn text @click="loginModal = false">
-            Закрыть
-          </v-btn>
+          <v-btn text @click="loginModal = false"> Закрыть </v-btn>
           <v-spacer></v-spacer>
-          <login-button color="primary" @login="checkin">
-            Войти
-          </login-button>
+          <login-button color="primary" @login="checkin"> Войти </login-button>
         </v-card-actions>
       </v-card>
     </v-dialog>

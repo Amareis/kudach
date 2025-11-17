@@ -34,15 +34,15 @@ export default class Post extends Vue {
   }
 
   get photos() {
-    return this.attachments.flatMap(a => (a.type === 'photo' ? [a.photo] : []))
+    return this.attachments.flatMap((a) => (a.type === 'photo' ? [a.photo] : []))
   }
 
   get videos() {
-    return this.attachments.flatMap(a => (a.type === 'video' ? [a.video] : []))
+    return this.attachments.flatMap((a) => (a.type === 'video' ? [a.video] : []))
   }
 
   get links() {
-    return this.attachments.flatMap(a => (a.type === 'link' ? [a.link] : []))
+    return this.attachments.flatMap((a) => (a.type === 'link' ? [a.link] : []))
   }
 
   get images() {

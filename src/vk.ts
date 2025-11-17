@@ -73,8 +73,8 @@ export function idOf(item: IPost | IGroup) {
 }
 
 function encode(obj: Params) {
-  let str = []
-  for (let [k, v] of Object.entries(obj))
+  const str = []
+  for (const [k, v] of Object.entries(obj))
     if (v !== undefined) str.push(encodeURIComponent(k) + '=' + encodeURIComponent(v))
   return str.join('&')
 }
@@ -95,18 +95,18 @@ function get<T = any>(m: string, params: Params) {
 export async function getPosts(posts: Array<string | null> | string) {
   let ids
   if (Array.isArray(posts)) {
-    ids = posts.filter(g => !!g).join(',')
+    ids = posts.filter((g) => !!g).join(',')
     posts = posts.join(',')
   } else ids = posts = String(posts)
   if (!ids) return []
   const res = await get<Array<IPost | null>>('wall.getById', {posts: ids})
-  return posts.split(',').map(id => res.find(p => p && postId(p) === id) || null)
+  return posts.split(',').map((id) => res.find((p) => p && postId(p) === id) || null)
 }
 
 export async function getGroups(groups: Array<string | null> | string, full = false) {
   let ids
   if (Array.isArray(groups)) {
-    ids = groups.filter(g => !!g).join(',')
+    ids = groups.filter((g) => !!g).join(',')
     groups = groups.join(',')
   } else ids = groups = String(groups)
   if (!ids) return []
@@ -116,14 +116,14 @@ export async function getGroups(groups: Array<string | null> | string, full = fa
   })
   return groups
     .split(',')
-    .map(id => res.find(g => g && (g.id === +id || g.screen_name === id)) || null)
+    .map((id) => res.find((g) => g && (g.id === +id || g.screen_name === id)) || null)
 }
 
 export async function getItems(items: Array<string | null> | string) {
   if (!items) return []
   if (!Array.isArray(items)) items = [String(items)]
-  const groups = items.map(i => (i && !i.includes('_') ? String(Math.abs(Number(i))) : ''))
-  const posts = items.map(i => (i && i.includes('_') ? i : ''))
+  const groups = items.map((i) => (i && !i.includes('_') ? String(Math.abs(Number(i))) : ''))
+  const posts = items.map((i) => (i && i.includes('_') ? i : ''))
 
   const [g, p] = await Promise.all([getGroups(groups, true), getPosts(posts)])
   return items.map((_, i) => g[i] || p[i])
@@ -134,5 +134,5 @@ export async function getUsers(users: Array<string | null> | string) {
   else users = String(users)
   if (!users) return []
   const res = await get<Array<IUser | null>>('users.get', {user_ids: users, fields: 'photo_50'})
-  return users.split(',').map(id => res.find(u => u && u.id === +id) || null)
+  return users.split(',').map((id) => res.find((u) => u && u.id === +id) || null)
 }

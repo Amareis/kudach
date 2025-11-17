@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@types/node": "^22.5.5",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "5.59.9",
     "@vitejs/plugin-vue2": "^2.3.1",
-    "eslint": "^8.57.1",
+    "eslint": "8.42.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.28.0",
     "prettier": "^3.3.3",
@@ -60,12 +60,13 @@
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended",
-      "@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended"
     ],
-    "parser": "@typescript-eslint/parser",
+    "parser": "vue-eslint-parser",
     "parserOptions": {
       "ecmaVersion": 2021,
-      "sourceType": "module"
+      "sourceType": "module",
+      "parser": "@typescript-eslint/parser"
     },
     "plugins": [
       "vue",
@@ -83,6 +84,8 @@
           "printWidth": 100
         }
       ],
+      "vue/multi-word-component-names": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",

@@ -11,7 +11,7 @@ const s = new Vuex.Store({
 export default s
 
 export function Reg(name: string, store = s): ClassDecorator {
-  return f => Module({name, dynamic: true, store, namespaced: true})(f)
+  return (f) => Module({name, dynamic: true, store, namespaced: true})(f)
 }
 
 type ConstructorOf<C> = {

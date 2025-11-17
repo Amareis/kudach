@@ -12,9 +12,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <login-button color="primary" @login="load">
-          Войти
-        </login-button>
+        <login-button color="primary" @login="load"> Войти </login-button>
       </v-card-actions>
     </v-card>
 
@@ -80,7 +78,7 @@ export default class Favorite extends Vue {
     const ids = await q.limit(this.portion).get()
     this.last = ids.docs[ids.docs.length - 1]
 
-    this.items = (this.items || []).concat(ids.docs.map(e => e.id))
+    this.items = (this.items || []).concat(ids.docs.map((e) => e.id))
 
     this.loading = false
   }

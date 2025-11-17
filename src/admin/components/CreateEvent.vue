@@ -62,12 +62,9 @@ export default {
     },
     async edit() {
       this.creating = true
-      await db
-        .collection('events')
-        .doc(this.event.uid)
-        .update({
-          start: this.start,
-        })
+      await db.collection('events').doc(this.event.uid).update({
+        start: this.start,
+      })
       this.$emit('edited')
     },
   },

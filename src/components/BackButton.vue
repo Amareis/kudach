@@ -1,7 +1,5 @@
 <template>
-  <v-icon large @click="goBack">
-    mdi-arrow-left
-  </v-icon>
+  <v-icon large @click="goBack"> mdi-arrow-left </v-icon>
 </template>
 
 <script lang="ts">

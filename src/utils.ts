@@ -1,3 +1,3 @@
 export function wait(timeout?: number) {
-  return new Promise(r => setTimeout(r, timeout))
+  return new Promise((r) => setTimeout(r, timeout))
 }

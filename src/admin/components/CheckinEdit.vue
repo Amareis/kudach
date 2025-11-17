@@ -12,17 +12,11 @@
     <v-divider />
 
     <v-card-actions>
-      <v-btn color="error" text @click="accept(false)">
-        Отклонить
-      </v-btn>
+      <v-btn color="error" text @click="accept(false)"> Отклонить </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="info" text @click="dialog = true">
-        Событие
-      </v-btn>
+      <v-btn color="info" text @click="dialog = true"> Событие </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="success" text @click="accept(true)">
-        Принять
-      </v-btn>
+      <v-btn color="success" text @click="accept(true)"> Принять </v-btn>
     </v-card-actions>
 
     <v-dialog v-model="dialog" max-width="500px">

@@ -99,7 +99,7 @@ export default class Header extends Vue {
     const f = this.format(this.next)
     let s
     if (l === 2) {
-      const sec = this.events.find(e => e !== this.next)!
+      const sec = this.events.find((e) => e !== this.next)!
       s = (inFuture(sec) ? '(также ' : '(было ') + this.format(sec) + ')'
     } else s = '(и ещё ' + (l - 1) + ' событий)'
     if (this.$vuetify.breakpoint.xsOnly) return [f, s]

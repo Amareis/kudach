@@ -29,7 +29,7 @@ export default class Item extends Vue {
   }
 
   get events() {
-    return this.possibleEvents.filter(e => e.id === this.id)
+    return this.possibleEvents.filter((e) => e.id === this.id)
   }
 }
 </script>

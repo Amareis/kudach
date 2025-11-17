@@ -81,9 +81,7 @@
 
     <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="0">
       Есть обновления!
-      <v-btn text large @click="updater.applyUpdate">
-        Применить их
-      </v-btn>
+      <v-btn text large @click="updater.applyUpdate"> Применить их </v-btn>
     </v-snackbar>
   </v-app>
 </template>

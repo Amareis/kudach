@@ -12,9 +12,7 @@
     </v-navigation-drawer>
     <portal v-if="$vuetify.breakpoint.smAndDown" to="header-right">
       <v-row no-gutters justify="end">
-        <v-btn text @click="drawer = true">
-          Меню
-        </v-btn>
+        <v-btn text @click="drawer = true"> Меню </v-btn>
       </v-row>
     </portal>
     <portal v-else to="main-right">

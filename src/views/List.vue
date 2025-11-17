@@ -109,9 +109,7 @@ export default class List extends Vue {
 
   get end() {
     const limit = this.date ? 1 : 1000
-    return moment(this.start)
-      .add(limit, 'day')
-      .startOf('day')
+    return moment(this.start).add(limit, 'day').startOf('day')
   }
 
   query() {
@@ -140,22 +138,22 @@ export default class List extends Vue {
     const events = await q.limit(this.portion).get()
     this.last = events.docs[events.docs.length - 1]
 
-    let ev = events.docs.map(d => ({...d.data(), uid: d.id} as IEvent))
-    if (this.events) ev = ev.filter(e => !this.events.find(ev => ev.id === e.id))
+    let ev = events.docs.map((d) => ({...d.data(), uid: d.id}) as IEvent)
+    if (this.events) ev = ev.filter((e) => !this.events.find((ev) => ev.id === e.id))
 
     let items: IEvent[] = []
     let lasts: Record<string, IEvent> = {}
     for (let e of ev) {
-      if (!items.find(pe => pe.id === e.id)) items.push(e)
+      if (!items.find((pe) => pe.id === e.id)) items.push(e)
       lasts[e.id] = e
     }
     if (loadPromotes) {
       const promotes = (await loadPromotes).docs.map(
-        d =>
+        (d) =>
           ({
             ...d.data(),
             uid: d.id,
-          } as IEvent),
+          }) as IEvent,
       )
       const promote = promotes[Math.round(Math.random() * (promotes.length - 1))]
       if (promote) items.splice(Math.min(items.length, 2), 0, promote)
@@ -163,16 +161,15 @@ export default class List extends Vue {
 
     this.events.push(...ev)
     this.items = (this.items || []).concat(
-      (await getItems(items.map(e => e.id))).flatMap(i => (i ? [i] : [])),
+      (await getItems(items.map((e) => e.id))).flatMap((i) => (i ? [i] : [])),
     )
     this.loading = false
 
     for (let e of Object.values(lasts))
       this.events.push(
-        ...(await this.query()
-          .where('start', '>', e.start)
-          .where('id', '==', e.id)
-          .get()).docs.map(d => ({...d.data(), uid: d.id} as IEvent)),
+        ...(await this.query().where('start', '>', e.start).where('id', '==', e.id).get()).docs.map(
+          (d) => ({...d.data(), uid: d.id}) as IEvent,
+        ),
       )
   }
 

@@ -59,9 +59,9 @@ export function live(
   onChange: (a: any) => void,
 ): Promise<() => void> {
   const s = r.onSnapshot.bind(r) as any
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let resolved = false
-    let un = s((a: any) => {
+    const un = s((a: any) => {
       if (!resolved) {
         resolve(un)
         resolved = true

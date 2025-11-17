@@ -116,11 +116,7 @@ export default class ItemGetter extends Vue {
   }
 
   async exist(id: string) {
-    let existing = await db
-      .collection(this.collection)
-      .where('id', '==', id)
-      .limit(1)
-      .get()
+    let existing = await db.collection(this.collection).where('id', '==', id).limit(1).get()
     return !!existing.docs.length
   }
 

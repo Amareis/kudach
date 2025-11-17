@@ -31,9 +31,12 @@ const updateSW = registerSW({
     log('Service worker has been registered.')
     if (registration) {
       // Check for updates every hour
-      setInterval(() => {
-        registration.update()
-      }, 60 * 60 * 1000)
+      setInterval(
+        () => {
+          registration.update()
+        },
+        60 * 60 * 1000,
+      )
     }
   },
   onRegisterError(error) {

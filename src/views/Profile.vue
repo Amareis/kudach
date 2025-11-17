@@ -54,10 +54,7 @@ export default class Profile extends Vue {
       this.balls = 0
       return
     }
-    const r = await db
-      .collection('rating')
-      .doc(String(this.user.id))
-      .get()
+    const r = await db.collection('rating').doc(String(this.user.id)).get()
     if (!r.exists) this.balls = 0
     else this.balls = r.data()!.total
   }

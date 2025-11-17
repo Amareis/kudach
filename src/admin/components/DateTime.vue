@@ -9,7 +9,7 @@
         full-width
         width="290px"
       >
-        <template #activator="{ on }">
+        <template #activator="{on}">
           <v-text-field
             v-on="on"
             :value="date && format(date)"
@@ -34,9 +34,9 @@
         persistent
         full-width
         width="290px"
-        @input="value => value && $refs.picker && ($refs.picker.selectingHour = true)"
+        @input="(value) => value && $refs.picker && ($refs.picker.selectingHour = true)"
       >
-        <template #activator="{ on }">
+        <template #activator="{on}">
           <v-text-field
             v-model="time"
             label="Время"
@@ -86,9 +86,7 @@ export default {
     start() {
       if (!this.time || !this.date) return ''
       const [h, m] = this.time.split(':')
-      return moment(this.date)
-        .set({h, m})
-        .toISOString()
+      return moment(this.date).set({h, m}).toISOString()
     },
   },
   watch: {

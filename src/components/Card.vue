@@ -114,7 +114,7 @@ export default class Card extends Vue {
 }
 .actions {
   & > * {
-    flex-basis: 0
+    flex-basis: 0;
   }
 }
 </style>

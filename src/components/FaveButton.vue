@@ -12,13 +12,9 @@
         <v-divider></v-divider>
 
         <v-card-actions>
-          <v-btn text @click="loginModal = false">
-            Закрыть
-          </v-btn>
+          <v-btn text @click="loginModal = false"> Закрыть </v-btn>
           <v-spacer></v-spacer>
-          <login-button color="primary" @login="onLogin">
-            Войти
-          </login-button>
+          <login-button color="primary" @login="onLogin"> Войти </login-button>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -49,11 +45,7 @@ export default class FaveButton extends Vue {
   exists = false
 
   query(user: IUser) {
-    return db
-      .collection('users')
-      .doc(String(user.id))
-      .collection('favorite')
-      .doc(this.id)
+    return db.collection('users').doc(String(user.id)).collection('favorite').doc(this.id)
   }
 
   created() {

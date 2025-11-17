@@ -98,11 +98,8 @@ export default {
     async load() {
       this.editing = null
       this.creating = false
-      const e = await db
-        .collection('events')
-        .where('id', '==', this.id)
-        .get()
-      const events = e.docs.map(d => ({...d.data(), uid: d.id}))
+      const e = await db.collection('events').where('id', '==', this.id).get()
+      const events = e.docs.map((d) => ({...d.data(), uid: d.id}))
       this.events = events
       this.creating = !this.events.length
       this.$emit('change', events)
@@ -124,14 +121,8 @@ export default {
           deletedAt: moment().toISOString(),
         }
         delete d.uid
-        await db
-          .collection('deleted')
-          .doc(e.uid)
-          .set(d)
-        await db
-          .collection('events')
-          .doc(e.uid)
-          .delete()
+        await db.collection('deleted').doc(e.uid).set(d)
+        await db.collection('events').doc(e.uid).delete()
       })
       await this.load()
     },

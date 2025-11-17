@@ -19,22 +19,18 @@
       </template>
     </v-card>
     <v-card v-if="existing">
-      <v-card-text color="red">
-        Этот пост уже продвигается!
-      </v-card-text>
+      <v-card-text color="red"> Этот пост уже продвигается! </v-card-text>
     </v-card>
     <Preview v-if="item" :item="item" only-frame class="mt-3">
       <v-card slot-scope="{id}">
         <v-card-actions>
           <v-btn @click="cancel()" text color="red">Отмена</v-btn>
           <v-spacer />
-          <v-btn @click="create(id)" text color="success">
-            Добавить
-          </v-btn>
+          <v-btn @click="create(id)" text color="success"> Добавить </v-btn>
         </v-card-actions>
       </v-card>
     </Preview>
-    <template v-for="e in events" :item="e">
+    <template v-for="e in events">
       <v-card :key="e.uid" class="mt-3">
         <v-card-actions>
           <v-spacer />
@@ -72,7 +68,7 @@ export default {
   },
   methods: {
     async load() {
-      this.events = (await db.collection('promotes').get()).docs.map(d => ({
+      this.events = (await db.collection('promotes').get()).docs.map((d) => ({
         ...d.data(),
         uid: d.id,
       }))
@@ -91,10 +87,7 @@ export default {
       this.load()
     },
     async del(uid) {
-      await db
-        .collection('promotes')
-        .doc(uid)
-        .delete()
+      await db.collection('promotes').doc(uid).delete()
       this.load()
     },
   },

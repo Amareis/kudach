@@ -7,7 +7,7 @@
     </portal>
     <portal to="header-title">Чекин на событии</portal>
 
-    <v-layout v-if="loading" justify-center><v-progress-circular indeterminate/></v-layout>
+    <v-layout v-if="loading" justify-center><v-progress-circular indeterminate /></v-layout>
     <v-card v-else>
       <v-card-title primary-title>Ваши фотографии</v-card-title>
 
@@ -18,9 +18,7 @@
       <v-carousel v-if="images.length">
         <v-carousel-item v-for="i in images" :src="i" :key="i" contain />
       </v-carousel>
-      <v-card-text v-else>
-        Загрузите фотографии с события
-      </v-card-text>
+      <v-card-text v-else> Загрузите фотографии с события </v-card-text>
 
       <v-divider />
 
@@ -86,10 +84,7 @@ export default class Checkin extends Vue {
   }
 
   async get() {
-    let doc = await db
-      .collection('checkins')
-      .doc(this.uid)
-      .get()
+    let doc = await db.collection('checkins').doc(this.uid).get()
 
     if (doc.exists) this.check = doc.data() as ICheckin
     else this.check = null
