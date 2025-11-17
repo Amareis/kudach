@@ -80,14 +80,15 @@ export default defineConfig({
   server: {
     port: 8088,
     proxy: {
-      '/authvk': {
-        target: 'https://kuda.ch',
+      '/api/authvk': {
+        target: process.env.VITE_AUTH_FUNCTION_URL || 'https://kuda.ch',
         changeOrigin: true,
-        headers: {
-          'x-redirect-host': 'http://localhost:8080',
-        },
+        rewrite: (path) => path.replace(/^\/api\/authvk/, '/authvk'),
       },
     },
+  },
+  define: {
+    'window.VITE_AUTH_FUNCTION_URL': JSON.stringify(process.env.VITE_AUTH_FUNCTION_URL || ''),
   },
   build: {
     target: 'es2015',

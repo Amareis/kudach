@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions'
+import * as functions from 'firebase-functions/v1'
 import admin from 'firebase-admin'
 
 import req from 'request'
@@ -30,12 +30,16 @@ function send(url: string) {
   )
 }
 
-function vkAuth(code: string, host: string) {
+function vkAuth(code: string, codeVerifier: string, host: string) {
   const secret = functions.config().vkapp.secret
 
   const url =
-    `https://oauth.vk.com/access_token?client_id=7102165` +
-    `&client_secret=${secret}&code=${code}&redirect_uri=${host}/authvk`
+    `https://oauth.vk.com/access_token?` +
+    `client_id=7102165&` +
+    `client_secret=${secret}&` +
+    `code=${code}&` +
+    `code_verifier=${codeVerifier}&` +
+    `redirect_uri=${host}/authvk`
 
   return send(url)
 }
@@ -43,15 +47,15 @@ function vkAuth(code: string, host: string) {
 type Params = Record<string, string | number | undefined>
 
 function encode(obj: Params) {
-  let str = []
-  for (let [k, v] of Object.entries(obj))
+  const str = []
+  for (const [k, v] of Object.entries(obj))
     if (v !== undefined) str.push(encodeURIComponent(k) + '=' + encodeURIComponent(v))
   return str.join('&')
 }
 
 function get(m: string, token: string, params: Params) {
-  const url = `https://api.vk.com/method/${m}?v=5.101&access_token=${token}&${encode(params)}`
-  return send(url).then(d => d.response)
+  const url = `https://api.vk.com/method/${m}?v=5.199&access_token=${token}&${encode(params)}`
+  return send(url).then((d) => d.response)
 }
 
 export const authvk = functions.https.onRequest(async (request, response) => {
@@ -59,19 +63,36 @@ export const authvk = functions.https.onRequest(async (request, response) => {
     response.send('invalid code')
     return
   }
+
   const hosts = request.headers['x-redirect-host']
   const host = hosts ? (Array.isArray(hosts) ? hosts[0] : hosts) : 'https://kuda.ch'
-  const code = request.query.code
+  const code = request.query.code as string
+  const stateFromVK = request.query.state as string | undefined
+
+  // Получаем code_verifier и state из cookie (установлены фронтендом)
+  const codeVerifier = request.cookies.vk_code_verifier
+  const stateFromCookie = request.cookies.vk_state
+
+  if (!codeVerifier) {
+    response.send('missing code_verifier')
+    return
+  }
+
+  // Проверяем state для защиты от CSRF атак
+  if (!stateFromCookie || !stateFromVK || stateFromCookie !== stateFromVK) {
+    response.cookie('firetoken', 'no')
+    response.clearCookie('vk_code_verifier')
+    response.clearCookie('vk_state')
+    response.send('invalid state - possible CSRF attack')
+    return
+  }
 
   try {
-    const {access_token, user_id} = await vkAuth(code, host)
+    const {access_token, user_id} = await vkAuth(code, codeVerifier, host)
     const id = String(user_id)
     const [user] = await get('users.get', access_token, {user_ids: id})
 
-    const doc = admin
-      .firestore()
-      .collection('users')
-      .doc(String(id))
+    const doc = admin.firestore().collection('users').doc(String(id))
 
     const u = await doc.get()
 
@@ -86,9 +107,13 @@ export const authvk = functions.https.onRequest(async (request, response) => {
 
     const token = await admin.auth().createCustomToken(id)
     response.cookie('firetoken', token)
+    response.clearCookie('vk_code_verifier')
+    response.clearCookie('vk_state')
     response.send('<script>onload=function(){setTimeout(close, 100)}</script>')
   } catch (e) {
     response.cookie('firetoken', 'no')
+    response.clearCookie('vk_code_verifier')
+    response.clearCookie('vk_state')
     response.send('error: ' + JSON.stringify(e))
   }
 })
@@ -106,15 +131,11 @@ export const checkinBalls = functions.firestore
     const user = after.user
     const event = after.id
 
-    const doc = db
-      .collection('users')
-      .doc(String(user))
-      .collection('balls')
-      .doc(checkin)
+    const doc = db.collection('users').doc(String(user)).collection('balls').doc(checkin)
 
     if ((await doc.get()).exists) return
 
-    await db.runTransaction(async tr => {
+    await db.runTransaction(async (tr) => {
       const rate = await tr.get(db.collection('rating').doc(String(user)))
 
       const balls = rate.exists ? rate.data()!.total : 0
@@ -142,15 +163,11 @@ export const proposalBalls = functions.firestore
     const proposed = context.params.proposed as string
     const user = after.user
 
-    const doc = db
-      .collection('users')
-      .doc(String(user))
-      .collection('balls')
-      .doc(proposed)
+    const doc = db.collection('users').doc(String(user)).collection('balls').doc(proposed)
 
     if ((await doc.get()).exists) return
 
-    await db.runTransaction(async tr => {
+    await db.runTransaction(async (tr) => {
       const rate = await tr.get(db.collection('rating').doc(String(user)))
 
       const balls = rate.exists ? rate.data()!.total : 0

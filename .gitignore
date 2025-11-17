@@ -4,9 +4,14 @@ node_modules
 /dist-ssr
 .firebase
 
+# Yandex Cloud Functions build
+yandex-functions/*/dist
+
 # local env files
 .env.local
 .env.*.local
+.env.deploy
+firebase-service-account.json
 
 # Log files
 npm-debug.log*
