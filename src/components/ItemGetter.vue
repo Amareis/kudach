@@ -83,6 +83,7 @@ export default class ItemGetter extends Vue {
       }
       this.$emit('item', post)
     } catch (e) {
+      console.error(e)
       this.error = 'Произошла ошибка'
       return
     }

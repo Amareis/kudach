@@ -8,7 +8,7 @@
       fixed
       right
     >
-      <nav-list />
+      <admin-nav-list />
     </v-navigation-drawer>
     <portal v-if="$vuetify.breakpoint.smAndDown" to="header-right">
       <v-row no-gutters justify="end">
@@ -18,7 +18,7 @@
     <portal v-else to="main-right">
       <v-card max-width="200px" :style="{position: 'fixed'}" class="ml-3 mr-3">
         <v-navigation-drawer floating permanent>
-          <nav-list />
+          <admin-nav-list />
         </v-navigation-drawer>
       </v-card>
     </portal>
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import NavList from './NavList'
+import AdminNavList from './AdminNavList.vue'
 export default {
   name: 'Admin',
-  components: {NavList},
+  components: {AdminNavList: AdminNavList},
   data() {
     return {
       drawer: null,

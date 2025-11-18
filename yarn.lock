@@ -1820,6 +1820,11 @@
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue2/-/plugin-vue2-2.3.4.tgz#6240f34fa400c32437b458611e176e0b435cf56e"
   integrity sha512-LgqtRRedJb1KdmgcllwGX0gtlPvOvtR6pITXmqxGwQhBZaAysg0Hd7wvj3sjCsj4+PENWsqS7O+ceYSOgJ+H9g==
 
+"@vkontakte/api-schema-typescript@1.5199.0":
+  version "1.5199.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/api-schema-typescript/-/api-schema-typescript-1.5199.0.tgz#14aa1d53c4872d6571af6a70ecff49ce6ea18883"
+  integrity sha512-wx/VyE0Fut1VAqTQ4ga5R42UvFHXqeZlwn8equNq0URXvaYf9pZEXmRR9m5iKfODDAUa9dZ5vgoYRHa84wHJVw==
+
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1", "@vue/babel-helper-vue-jsx-merge-props@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.4.0.tgz#8d53a1e21347db8edbe54d339902583176de09f2"
