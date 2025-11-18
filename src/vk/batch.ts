@@ -70,10 +70,6 @@ function processBatch<M extends VKMethod>(batchKey: string) {
   const allIds = batch.flatMap((req) => req.ids)
   const {method, params} = batch[0]
 
-  console.log(
-    `[VK API Batch] Processing ${batch.length} requests for ${method}, total IDs: ${allIds.length}`,
-  )
-
   const config = getMethodConfig(method)
   const batchParams = {
     ...params,
@@ -91,8 +87,6 @@ function processBatch<M extends VKMethod>(batchKey: string) {
       console.error('[VK API Batch] API error:', data.error)
       batch.forEach((req) => req.reject(data.error))
     } else {
-      console.log(`[VK API Batch] Success for ${method}`)
-
       // Each request gets the full response - filtering happens in api.ts
       // This is intentional: api.ts functions handle ID matching and ordering
       batch.forEach((req) => req.resolve(data.response))
