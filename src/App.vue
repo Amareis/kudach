@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import {Route} from 'vue-router'
+import {type Route} from 'vue-router'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 
 import {reload} from '@/plugins/regSw'

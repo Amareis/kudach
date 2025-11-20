@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import moment, {Moment} from 'moment'
+import moment, {type Moment} from 'moment'
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
 @Component

@@ -2,7 +2,7 @@
   <v-btn v-bind="$attrs" v-on="$listeners" @click="$refs.uploadFile.click()">
     <slot />
     <input
-      :id="`${_uid}uploadFile`"
+      :id="`$uploadFile`"
       ref="uploadFile"
       class="input"
       type="file"
@@ -28,16 +28,16 @@ export default class UploadButton extends Vue {
     uploadFile: HTMLInputElement
   }
 
-  fileChanged({target}: {target: HTMLInputElement}) {
+  fileChanged({target}: Event) {
+    if (!(target instanceof HTMLInputElement)) return
     if (target.files && target.files.length > 0) {
-      if (!this.multiple) this.$emit('file-update', target.files[0])
+      if (!this.multiple) this.$emit('file-update', [target.files[0]])
       else this.$emit('file-update', target.files)
-    } else this.$emit('file-update')
+    }
   }
 
   clear() {
     this.$refs.uploadFile.value = ''
-    this.$emit('file-update')
   }
 }
 </script>

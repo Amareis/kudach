@@ -39,6 +39,7 @@ export interface IPost extends BaseVk {
   owner_id: number
   attachments: IAttachment[]
   copy_history?: IPost[]
+  text: string
 }
 
 export interface IGroup extends BaseVk {

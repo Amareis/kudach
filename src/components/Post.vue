@@ -12,8 +12,8 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
-import {IEvent} from '@/db'
-import {biggestOf, IPost, postId} from '@/vk'
+import {type IEvent} from '@/db'
+import {biggestOf, type IPost, postId} from '@/vk'
 
 import Card from './Card.vue'
 

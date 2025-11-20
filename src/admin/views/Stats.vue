@@ -18,7 +18,7 @@
       </template>
       <v-date-picker v-model="start" scrollable :first-day-of-week="1" locale="ru-RU" no-title>
         <v-spacer />
-        <v-btn text color="primary" @click="$refs.startDialog.save(start)">OK</v-btn>
+        <v-btn text color="primary" @click="$refs.startDialog?.save(start)">OK</v-btn>
       </v-date-picker>
     </v-dialog>
     <v-dialog ref="endDialog" v-model="endModal" :return-value.sync="end" full-width width="290px">
@@ -33,12 +33,10 @@
       </template>
       <v-date-picker v-model="end" scrollable :first-day-of-week="1" locale="ru-RU" no-title>
         <v-spacer />
-        <v-btn text color="primary" @click="$refs.endDialog.save(end)">OK</v-btn>
+        <v-btn text color="primary" @click="$refs.endDialog?.save(end)">OK</v-btn>
       </v-date-picker>
     </v-dialog>
-    <v-btn color="primary" right large :disabled="!(start && end)" @click="load(start, end)"
-      >Загрузить</v-btn
-    >
+    <v-btn color="primary" right large :disabled="!(start && end)" @click="load()">Загрузить</v-btn>
     <v-layout v-if="loaded"
       ><br /><br />
       {{ users.length }} новых пользователей<br />
@@ -55,6 +53,7 @@
 import {Component, Vue} from 'vue-property-decorator'
 import db, {ICheckin, IEvent, firebase} from '@/db'
 import moment from 'moment'
+import {VDialog} from 'vuetify/lib'
 
 type Query = firebase.firestore.Query
 
@@ -75,6 +74,11 @@ export default class Stats extends Vue {
   checkins: ICheckin[] = []
   events: IEvent[] = []
 
+  $refs!: {
+    startDialog: any
+    endDialog: any
+  }
+
   get uniqueCheckins() {
     return [...new Set(this.checkins.map((c) => c.user))]
   }
@@ -86,7 +90,11 @@ export default class Stats extends Vue {
     return s
   }
 
-  async load(start: string, end: string) {
+  async load() {
+    const {start, end} = this
+
+    if (!start || !end) return
+
     this.loaded = false
     this.users = await map(
       db

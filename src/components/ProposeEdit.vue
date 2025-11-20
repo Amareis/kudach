@@ -22,7 +22,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
-import db, {IProposed} from '@/db'
+import db, {type IProposed} from '@/db'
 import {auth} from '@/store'
 
 import SourceName from '@/components/SourceName.vue'

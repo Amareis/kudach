@@ -36,7 +36,7 @@
       </v-card>
 
       <template v-for="i in items">
-        <Item v-if="i" :key="i.uid" :item="i" :possible-events="events" short class="mb-4" />
+        <Item v-if="i" :key="i.id" :item="i" :possible-events="events" short class="mb-4" />
       </template>
     </v-layout>
     <v-progress-circular class="align-self-center" v-if="loading" indeterminate />
@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import moment from 'moment'
-import {firestore} from 'firebase'
+import firebase from 'firebase'
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Location} from 'vue-router'
 
@@ -58,7 +58,7 @@ import Post from '@/components/Post.vue'
 import BackButton from '@/components/BackButton.vue'
 import HelloCard from '@/components/HelloCard.vue'
 
-type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
+type QueryDocumentSnapshot = firebase.firestore.QueryDocumentSnapshot
 
 @Component({
   components: {Post, Item, DatePicker, BackButton, HelloCard},

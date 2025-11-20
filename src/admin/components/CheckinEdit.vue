@@ -28,7 +28,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 
-import db, {storage, ICheckin} from '@/db'
+import db, {storage, type ICheckin} from '@/db'
 import SourceName from '@/components/SourceName.vue'
 import ItemLoader from '@/components/ItemLoader.vue'
 import {auth} from '@/store'

@@ -72,6 +72,10 @@ export default class Header extends Vue {
 
   show = false
 
+  $refs!: {
+    menu: any
+  }
+
   get auth() {
     return auth
   }

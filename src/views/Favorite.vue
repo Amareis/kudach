@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import {firestore} from 'firebase'
+import firebase from 'firebase'
 import {Component, Vue} from 'vue-property-decorator'
 
 import {auth} from '@/store'
@@ -39,7 +39,7 @@ import db from '@/db'
 import ItemLoader from '@/components/ItemLoader.vue'
 import LoginButton from '@/components/LoginButton.vue'
 
-type QueryDocumentSnapshot = firestore.QueryDocumentSnapshot
+type QueryDocumentSnapshot = firebase.firestore.QueryDocumentSnapshot
 
 @Component({
   components: {LoginButton, ItemLoader},

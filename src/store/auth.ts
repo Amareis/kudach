@@ -20,7 +20,7 @@ export class Auth extends VuexModule {
   }
 
   @Action async load() {
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       const un = auth.onAuthStateChanged((user) => {
         this.handleUserId(user && user.uid).then(() => {
           un()
