@@ -31,9 +31,9 @@
             </v-layout>
           </v-col>
           <v-col cols="12" sm="10" md="6" lg="5" xl="4">
-            <v-row v-if="!loader.loaded || hasMajorUpdate" justify="center"
-              ><v-progress-circular indeterminate
-            /></v-row>
+            <v-row v-if="!loader.loaded || hasMajorUpdate" justify="center">
+              <v-progress-circular indeterminate />
+            </v-row>
             <keep-alive v-else include="List">
               <router-view :key="$route.name"></router-view>
             </keep-alive>
@@ -81,7 +81,8 @@
 
     <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="-1">
       Есть обновления!
-      <v-btn text large @click="updater.applyUpdate"> Применить их </v-btn>
+      <v-btn v-if="!updater.applying" text large @click="updater.applyUpdate"> Применить их </v-btn>
+      <v-progress-circular v-else indeterminate />
     </v-snackbar>
   </v-app>
 </template>

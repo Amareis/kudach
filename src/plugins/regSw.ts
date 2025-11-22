@@ -25,7 +25,7 @@ const updateSW = registerSW({
       console.log(updateSW)
       updateSW().then(() => {
         log('Update applied, reloading...')
-        location.reload()
+        setTimeout(() => location.reload(), 500)
       })
     })
   },
