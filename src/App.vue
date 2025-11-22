@@ -18,7 +18,7 @@
     <v-navigation-drawer v-if="$vuetify.breakpoint.sm" app temporary v-model="drawer">
       <nav-list :admin="auth.isAdmin" />
     </v-navigation-drawer>
-    <v-content>
+    <v-main>
       <v-container fluid class="px-0">
         <v-row wrap no-gutters justify="center">
           <v-col v-if="$vuetify.breakpoint.mdAndUp" md="3" :style="{position: 'relative'}">
@@ -43,7 +43,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
 
     <v-bottom-navigation
       v-if="$vuetify.breakpoint.xs && $route.name !== 'details'"
@@ -79,7 +79,7 @@
       </v-btn>
     </v-bottom-navigation>
 
-    <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="0">
+    <v-snackbar :value="updater.hasUpdate" bottom color="info" :timeout="-1">
       Есть обновления!
       <v-btn text large @click="updater.applyUpdate"> Применить их </v-btn>
     </v-snackbar>

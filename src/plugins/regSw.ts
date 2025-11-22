@@ -21,7 +21,12 @@ const updateSW = registerSW({
   onNeedRefresh() {
     log('New content is available; please refresh.')
     updater.update(() => {
-      updateSW(true)
+      log('Applying update...')
+      console.log(updateSW)
+      updateSW().then(() => {
+        log('Update applied, reloading...')
+        location.reload()
+      })
     })
   },
   onOfflineReady() {

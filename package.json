@@ -1,6 +1,6 @@
 {
   "name": "kudach",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,12 +26,12 @@
     "portal-vue": "^2.1.7",
     "reflect-metadata": "^0.2.2",
     "roboto-fontface": "^0.10.0",
-    "vue": "^2.7.16",
+    "vue": "2.6.14",
     "vue-analytics": "^5.22.1",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.6.5",
-    "vuetify": "^2.7.2",
+    "vuetify": "2.7.2",
     "vuex": "^3.0.1",
     "vuex-module-decorators": "^0.10.1"
   },
@@ -49,9 +49,9 @@
     "typescript": "^5.9.3",
     "unplugin-vue-components": "^30.0.0",
     "vite": "^4.5.14",
-    "vite-plugin-pwa": "^0.20.5",
+    "vite-plugin-pwa": "1.1.0",
     "vite-plugin-vue2": "^2.0.3",
-    "vue-template-compiler": "^2.7.16",
+    "vue-template-compiler": "2.6.14",
     "vue-tsc": "2.2.12"
   },
   "eslintConfig": {
