@@ -9,11 +9,8 @@ export async function reload() {
 
   const reg = await navigator.serviceWorker.getRegistration()
   if (!reg) return location.reload()
-  await reg.update()
-  if (reg.waiting) {
-    reg.waiting.postMessage({type: 'SKIP_WAITING'})
-    setTimeout(() => location.reload(), 500)
-  }
+  await reg.unregister()
+  setTimeout(() => location.reload(), 500)
 }
 
 // Register service worker with Vite PWA plugin
